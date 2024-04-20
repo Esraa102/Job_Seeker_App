@@ -21,7 +21,7 @@ const applyJob = async (req, res, next) => {
         applied.applications.push(req.user._id);
         applied.applicationsCount += 1;
         await applied.save();
-        
+
         // add the applied job to the user
         const user = await User.findById(req.user._id);
         const isExist = user.appliedJobs.filter((e) => {
@@ -37,11 +37,12 @@ const applyJob = async (req, res, next) => {
         } else {
           user.appliedJobs.push({
             jobId,
-            title: job.title,
-            location: job.location,
+            title: applied.title,
+            location: applied.location,
           });
           await user.save();
         }
+        // create the application
         const newApplication = await Application.create({
           jobId,
           jobTitle: applied.title,
@@ -52,7 +53,10 @@ const applyJob = async (req, res, next) => {
           state: req.body.state,
           resume: req.body.resume,
         });
-        res.status(200).json({ job: applied, application: newApplication });
+
+        res
+          .status(200)
+          .json({ job: applied, user, application: newApplication });
       }
     } catch (error) {
       next(customError(res.status(500), error.message));
