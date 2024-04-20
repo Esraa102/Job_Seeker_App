@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import validator from "validator";
 
 const applicationSchema = new mongoose.Schema({
   jobId: {
@@ -24,14 +25,32 @@ const applicationSchema = new mongoose.Schema({
   email: {
     type: String,
     required: [true, "Please provide your email"],
-    unique: true,
+    validator: [validator.isEmail, "Please provdie valid email"],
+  },
+  coverLetter: {
+    type: String,
   },
   state: {
     type: String,
   },
   resume: {
+    public_id: {
+      type: String,
+      required: true,
+    },
+    url: {
+      type: String,
+      required: true,
+    },
+  },
+  employerID: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "users",
+    required: true,
+  },
+  jobSeekerId: {
     type: String,
-    required: [true, "Please provide your resume"],
+    required: true,
   },
 });
 

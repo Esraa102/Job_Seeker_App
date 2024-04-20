@@ -9,16 +9,31 @@ const applyJob = async (req, res, next) => {
     try {
       // check if the user applied before
       const job = await Job.findOne({
-        applications: { $in: [req.user._id] },
+        applications: { $elemMatch: { jobSeekerId: req.user._id } },
       });
       if (job) {
         next(
           customError(res.status(403), "You have already applied for this job")
         );
       } else {
-        // add the user application to the job
         const applied = await Job.findById(req.params.jobId);
-        applied.applications.push(req.user._id);
+        // create the application
+        const newApplication = await Application.create({
+          jobId,
+          jobTitle: applied.title,
+          firstName: req.body.firstName,
+          lastName: req.body.lastName,
+          email: req.body.email,
+          phoneNumber: req.body.phoneNumber,
+          state: req.body.state,
+          resume: req.body.resume,
+          coverLetter: req.body.coverLetter,
+          jobSeekerId: req.user._id,
+          employerID: applied.employer.employerId,
+        });
+
+        // add the user application to the job
+        applied.applications.push(newApplication);
         applied.applicationsCount += 1;
         await applied.save();
 
@@ -42,17 +57,6 @@ const applyJob = async (req, res, next) => {
           });
           await user.save();
         }
-        // create the application
-        const newApplication = await Application.create({
-          jobId,
-          jobTitle: applied.title,
-          firstName: req.body.firstName,
-          lastName: req.body.lastName,
-          email: req.body.email,
-          phoneNumber: req.body.phoneNumber,
-          state: req.body.state,
-          resume: req.body.resume,
-        });
 
         res
           .status(200)

@@ -49,7 +49,7 @@ const jobSchema = new mongoose.Schema(
       required: true,
     },
     applications: {
-      type: [String],
+      type: [Object],
       default: [],
     },
     applicationsCount: {
