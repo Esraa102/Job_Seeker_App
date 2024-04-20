@@ -152,4 +152,24 @@ const deleteFromSaved = async (req, res, next) => {
   }
 };
 
-export { registerUser, logInUser, logOutUser, saveJob, deleteFromSaved };
+const getUser = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.userId);
+    if (!user) {
+      next(customError(res.status(404), "User Not Found"));
+    } else {
+      res.status(200).json({ userData: user });
+    }
+  } catch (error) {
+    next(customError(res.status(500), error.message));
+  }
+};
+
+export {
+  registerUser,
+  logInUser,
+  logOutUser,
+  saveJob,
+  deleteFromSaved,
+  getUser,
+};
