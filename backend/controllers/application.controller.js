@@ -2,12 +2,13 @@ import { Application } from "../models/application.model.js";
 import { customError } from "../utils/customError.js";
 import { Job } from "../models/job.model.js";
 import { User } from "../models/user.model.js";
+import cloudinary from "cloudinary";
 
 const applyJob = async (req, res, next) => {
   const { jobId } = req.params;
   if (req.user.role === "Job Seeker") {
     try {
-      // check if the user applied before
+      // check if the user has applied before
       const job = await Job.findOne({
         applications: { $elemMatch: { jobSeekerId: req.user._id } },
       });
@@ -16,6 +17,28 @@ const applyJob = async (req, res, next) => {
           customError(res.status(403), "You have already applied for this job")
         );
       } else {
+        if (!req.files || Object.keys(req.files).length === 0) {
+          next(customError(res.status(400), "Resume file is required"));
+        }
+        const allowedFormates = [
+          "image/jpg",
+          "image/png",
+          "image/jpeg",
+          "image/webp",
+        ];
+        if (!allowedFormates.includes(req.files.resume.mimetype)) {
+          next(customError(res.status(400), "Invalid File Formate"));
+        }
+        const cloudinaryResponse = await cloudinary.uploader.upload(
+          req.files.resume.tempFilePath
+        );
+        if (!cloudinaryResponse || cloudinaryResponse.error) {
+          console.log(
+            "Cloudinary Error",
+            cloudinaryResponse.error || "Unknown Error"
+          );
+          next(customError(res.status(400), "Failded to upload the file"));
+        }
         const applied = await Job.findById(req.params.jobId);
         // create the application
         const newApplication = await Application.create({
@@ -26,7 +49,10 @@ const applyJob = async (req, res, next) => {
           email: req.body.email,
           phoneNumber: req.body.phoneNumber,
           state: req.body.state,
-          resume: req.body.resume,
+          resume: {
+            public_id: cloudinaryResponse.public_id,
+            url: cloudinaryResponse.secure_url,
+          },
           coverLetter: req.body.coverLetter,
           jobSeekerId: req.user._id,
           employerID: applied.employer.employerId,
@@ -58,9 +84,10 @@ const applyJob = async (req, res, next) => {
           await user.save();
         }
 
-        res
-          .status(200)
-          .json({ job: applied, user, application: newApplication });
+        res.status(200).json({
+          newApplication,
+          message: "Application Submitted Successfully",
+        });
       }
     } catch (error) {
       next(customError(res.status(500), error.message));
