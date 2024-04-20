@@ -58,7 +58,7 @@ const logInUser = async (req, res, next) => {
       if (!user) {
         next(customError(res.status(401), "User Is Unathorized"));
       } else {
-        if (bcrypt.compareSync(password, user.password)) {
+        if (bcrypt.compareSync(password, user.password) && role === user.role) {
           const accessToken = jwt.sign(
             {
               _id: user._id,
