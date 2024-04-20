@@ -18,7 +18,7 @@ const applyJob = async (req, res, next) => {
         const appliedJob = await Job.findById(req.params.jobId);
         appliedJob.applications.push(req.user._id);
         appliedJob.applicationsCount += 1;
-        appliedJob.save();
+        await appliedJob.save();
         const newApplication = await Application.create({
           jobId,
           jobTitle: appliedJob.title,

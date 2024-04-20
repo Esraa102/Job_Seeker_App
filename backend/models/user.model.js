@@ -26,6 +26,25 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: [true, "Please enter your password"],
     },
+    savedJobs: {
+      type: [
+        {
+          jobId: {
+            type: String,
+            required: true,
+          },
+          title: {
+            type: String,
+            required: true,
+          },
+          location: {
+            type: String,
+            required: true,
+          },
+        },
+      ],
+      default: [],
+    },
   },
   { timestamps: true }
 );

@@ -1,5 +1,6 @@
 import { customError } from "../utils/customError.js";
 import { User } from "../models/user.model.js";
+import { Job } from "../models/job.model.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
@@ -26,6 +27,7 @@ const registerUser = async (req, res, next) => {
             role: newUser.role,
             phone: newUser.phone,
             username: newUser.username,
+            savedJobs: newUser.savedJobs,
           },
           process.env.ACCESS_SECRET_TOKEN,
           { expiresIn: "1h" }
@@ -64,6 +66,7 @@ const logInUser = async (req, res, next) => {
               role: user.role,
               phone: user.phone,
               username: user.username,
+              savedJobs: user.savedJobs,
             },
             process.env.ACCESS_SECRET_TOKEN,
             { expiresIn: "1h" }
@@ -92,4 +95,61 @@ const logOutUser = async (req, res, next) => {
   res.clearCookie("access_token").status(200).json("Logged Out Successfully");
 };
 
-export { registerUser, logInUser, logOutUser };
+const saveJob = async (req, res, next) => {
+  if (req.user.role === "Job Seeker") {
+    try {
+      const job = await Job.findById(req.params.jobId);
+      if (!job) {
+        next(customError(res.status(404), "Job Not Found"));
+      } else {
+        const user = await User.findById(req.user._id);
+        const isSaved = user.savedJobs.filter((e) => {
+          return e.jobId === req.params.jobId;
+        });
+        if (isSaved[0]) {
+          next(customError(res.status(403), "This job is already saved"));
+        } else {
+          user.savedJobs.push({
+            jobId: req.params.jobId,
+            title: job.title,
+            location: job.location,
+          });
+          await user.save();
+          res.status(200).json({ user });
+        }
+      }
+    } catch (error) {
+      next(customError(res.status(500), error.message));
+    }
+  } else {
+    next(customError(res.status(403), "Only Job seekers can do this action"));
+  }
+};
+
+const deleteFromSaved = async (req, res, next) => {
+  if (req.user.role === "Job Seeker") {
+    try {
+      const user = await User.findById(req.user._id);
+      const isExist = user.savedJobs.filter((e) => {
+        return e.jobId === req.params.jobId;
+      });
+      if (isExist[0]) {
+        user.savedJobs = user.savedJobs.filter((e) => {
+          return e.jobId !== req.params.jobId;
+        });
+        await user.save();
+        res
+          .status(200)
+          .json({ user, message: "Job Removed From Saved Successfully" });
+      } else {
+        next(customError(res.status(404), "Job Not Found"));
+      }
+    } catch (error) {
+      next(customError(res.status(500), error.message));
+    }
+  } else {
+    next(customError(res.status(403), "Only Job seekers can do this action"));
+  }
+};
+
+export { registerUser, logInUser, logOutUser, saveJob, deleteFromSaved };
