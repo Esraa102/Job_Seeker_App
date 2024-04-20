@@ -41,7 +41,7 @@ app.use(
 
 app.use("/api/user", userRouter);
 app.use("/api/application", applicationRouter);
-app.use("/api/job", jobRouter);
+app.use("/api/jobs", jobRouter);
 
 app.use(errorHanlder);
 app.listen(port, () => {
