@@ -2,6 +2,7 @@ import { customError } from "../utils/customError.js";
 import { User } from "../models/user.model.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+
 const registerUser = async (req, res, next) => {
   const { role, username, email, password, phone } = req.body;
   if (role && username && email && password && phone) {
@@ -45,10 +46,11 @@ const registerUser = async (req, res, next) => {
     next(customError(res.status(400), "All Inputs Are Essential"));
   }
 };
-const logInUser = async (req, res, next) => {
-  const { email, password } = req.body;
 
-  if (email && password) {
+const logInUser = async (req, res, next) => {
+  const { email, password, role } = req.body;
+
+  if (email && password && role) {
     try {
       const user = await User.findOne({ email });
       if (!user) {
@@ -85,6 +87,7 @@ const logInUser = async (req, res, next) => {
     next(customError(res.status(400), "All Inputs Are Essential"));
   }
 };
+
 const logOutUser = async (req, res, next) => {
   res.clearCookie("access_token").status(200).json("Logged Out Successfully");
 };

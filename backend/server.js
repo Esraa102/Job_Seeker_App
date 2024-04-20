@@ -8,6 +8,8 @@ import cookieParser from "cookie-parser";
 import fileUpload from "express-fileupload";
 import { errorHanlder } from "./middleware/errorHanlder.js";
 import { userRouter } from "./routes/user.route.js";
+import { applicationRouter } from "./routes/application.route.js";
+import { jobRouter } from "./routes/job.router.js";
 
 const app = express();
 connectToDB();
@@ -38,6 +40,9 @@ app.use(
 );
 
 app.use("/api/user", userRouter);
+app.use("/api/application", applicationRouter);
+app.use("/api/job", jobRouter);
+
 app.use(errorHanlder);
 app.listen(port, () => {
   console.log("Server Is Running On", port);
