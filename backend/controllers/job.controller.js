@@ -117,4 +117,32 @@ const deleteJob = async (req, res, next) => {
   }
 };
 
-export { createJob, getAllJobs, getJobById, updateJob, deleteJob };
+const getMyJobs = async (req, res, next) => {
+  if (req.user.role === "Employer") {
+    try {
+      const myJobs = await Job.find({ "employer.employerId": req.user._id });
+      res.status(200).json({ jobs: myJobs });
+    } catch (error) {
+      customError(res.status(500), error.message);
+    }
+  } else {
+    next(
+      customError(
+        res.status(403),
+        "Job Seeker are not allowed to these resources"
+      )
+    );
+  }
+};
+
+const searchJob = async (req, res, next) => {};
+
+export {
+  createJob,
+  getAllJobs,
+  getJobById,
+  updateJob,
+  deleteJob,
+  getMyJobs,
+  searchJob,
+};
