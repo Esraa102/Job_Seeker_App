@@ -5,6 +5,10 @@ const applicationSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  jobTitle: {
+    type: String,
+    required: true,
+  },
   firstName: {
     type: String,
     required: [true, "Please provide your first name"],
