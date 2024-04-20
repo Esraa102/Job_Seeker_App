@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const applicationSchema = new mongoose({
+const applicationSchema = new mongoose.Schema({
   jobId: {
     type: String,
     required: true,
@@ -22,11 +22,13 @@ const applicationSchema = new mongoose({
     required: [true, "Please provide your email"],
     unique: true,
   },
-  State: {
+  state: {
     type: String,
   },
   resume: {
-    type: File,
+    type: String,
     required: [true, "Please provide your resume"],
   },
 });
+
+export const Application = mongoose.model("applications", applicationSchema);

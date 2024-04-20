@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const jobSchema = new mongoose.Schema(
   {
@@ -49,14 +49,7 @@ const jobSchema = new mongoose.Schema(
       required: true,
     },
     applications: {
-      type: [
-        {
-          userId: {
-            type: String,
-            required: true,
-          },
-        },
-      ],
+      type: [String],
       default: [],
     },
     applicationsCount: {
