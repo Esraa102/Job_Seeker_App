@@ -45,6 +45,25 @@ const userSchema = new mongoose.Schema(
       ],
       default: [],
     },
+    appliedJobs: {
+      type: [
+        {
+          jobId: {
+            type: String,
+            required: true,
+          },
+          title: {
+            type: String,
+            required: true,
+          },
+          location: {
+            type: String,
+            required: true,
+          },
+        },
+      ],
+      default: [],
+    },
   },
   { timestamps: true }
 );

@@ -1,6 +1,7 @@
 import { Application } from "../models/application.model.js";
 import { customError } from "../utils/customError.js";
 import { Job } from "../models/job.model.js";
+import { User } from "../models/user.model.js";
 
 const applyJob = async (req, res, next) => {
   const { jobId } = req.params;
@@ -15,13 +16,35 @@ const applyJob = async (req, res, next) => {
           customError(res.status(403), "You have already applied for this job")
         );
       } else {
-        const appliedJob = await Job.findById(req.params.jobId);
-        appliedJob.applications.push(req.user._id);
-        appliedJob.applicationsCount += 1;
-        await appliedJob.save();
+        // add the user application to the job
+        const applied = await Job.findById(req.params.jobId);
+        applied.applications.push(req.user._id);
+        applied.applicationsCount += 1;
+        await applied.save();
+        
+        // add the applied job to the user
+        const user = await User.findById(req.user._id);
+        const isExist = user.appliedJobs.filter((e) => {
+          return e.jobId === jobId;
+        });
+        if (isExist[0]) {
+          next(
+            customError(
+              res.status(403),
+              "You have already applied for this job"
+            )
+          );
+        } else {
+          user.appliedJobs.push({
+            jobId,
+            title: job.title,
+            location: job.location,
+          });
+          await user.save();
+        }
         const newApplication = await Application.create({
           jobId,
-          jobTitle: appliedJob.title,
+          jobTitle: applied.title,
           firstName: req.body.firstName,
           lastName: req.body.lastName,
           email: req.body.email,
@@ -29,7 +52,7 @@ const applyJob = async (req, res, next) => {
           state: req.body.state,
           resume: req.body.resume,
         });
-        res.status(200).json({ job: appliedJob, application: newApplication });
+        res.status(200).json({ job: applied, application: newApplication });
       }
     } catch (error) {
       next(customError(res.status(500), error.message));
