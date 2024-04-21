@@ -22,3 +22,29 @@
     @apply opacity-40 cursor-not-allowed hover:bg-green hover:text-black;
   }
 }
+
+/* HTML: <div class="loader"></div> */
+.loader {
+  width: 60px;
+  aspect-ratio: 4;
+  --c: #27debf 90%, #0000;
+  background: radial-gradient(circle closest-side at left 6px top 50%, var(--c)),
+    radial-gradient(circle closest-side, var(--c)),
+    radial-gradient(circle closest-side at right 6px top 50%, var(--c));
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  -webkit-animation: l4 1s infinite alternate;
+  animation: l4 1s infinite alternate;
+}
+@-webkit-keyframes l4 {
+  to {
+    width: 25px;
+    aspect-ratio: 1;
+  }
+}
+@keyframes l4 {
+  to {
+    width: 25px;
+    aspect-ratio: 1;
+  }
+}

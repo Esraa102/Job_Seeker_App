@@ -25,11 +25,16 @@ const SignUp = () => {
   }, [isError, isSuccess]);
 
   return (
-    <section className="h-screen bg-white px-6 py-10 md:py-6 flex flex-col md:flex-row md:items-center gap-6 justify-between">
-      <div className="flex-1 text-center">
-        <h1 className="text-4xl mt-4 mb-3 font-extrabold text-green">
-          Sign Up
-        </h1>
+    <section className="h-screen bg-white px-6 py-10 md:py-6 flex flex-col md:flex-row md:items-center gap-6 justify-center md:justify-between">
+      <div className="md:flex-1 text-center">
+        <div className="flex items-center gap-1 mb-4 justify-center">
+          <img
+            src="/assets/logo-2.png"
+            alt="logo"
+            className="w-[70px] h-[70px]"
+          />
+          <span className="text-4xl font-bold text-green">JobZee</span>
+        </div>
         <p className="text-sm mb-4 text-gray-500">
           Please enter your details to create a new account
         </p>
@@ -47,7 +52,7 @@ const SignUp = () => {
       <img
         src="/assets/register.png"
         alt="resiter-img"
-        className="w-full md:w-1/2"
+        className="w-full md:w-1/2 hidden md:block"
       />
     </section>
   );

@@ -11,15 +11,16 @@ const Header = () => {
     <>
       <header className="bg-green shadow-md fixed top-0 left-0 w-full z-10">
         <div className="container flex items-center gap-4 justify-between p-4 md:px-0 mx-auto">
-          <Link to={"/"}>
+          <Link to={"/"} className="flex items-center gap-1">
             <img
               src="/assets/logo.png"
               alt="logo"
-              className="w-[100px] h-[50px]"
+              className="w-[40px] h-[40px]"
             />
+            <span className="text-2xl font-bold hidden md:inline">JobZee</span>
           </Link>
           <div className="hidden md:flex items-center gap-3">
-            <ul className="flex gap-3 font-semibold items-center text-black text-lg ">
+            <ul className="flex gap-3 font-semibold items-center text-gray-700 text-lg ">
               <li>
                 <NavLink
                   to={"/"}
@@ -80,7 +81,7 @@ const Header = () => {
       </header>
       {showMenue && (
         <div className="flex fixed top-[90px] rounded-md p-4 backdrop-blur-lg right-4 w-[70%]  flex-col md:hidden  gap-3">
-          <ul className="flex gap-3 flex-col text-black text-lg font-semibold">
+          <ul className="flex gap-3 flex-col text-gray-700 text-lg font-semibold">
             <li>
               <NavLink
                 to={"/"}
