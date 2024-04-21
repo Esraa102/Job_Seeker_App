@@ -8,7 +8,7 @@ import PopularCategories from "./PopularCategories";
 import PopularCompanies from "./PopularCompanies";
 import HowItWorks from "./HowItWorks";
 import ApplicationForm from "./ApplicationForm";
-
+import LogOut from "./LogOut";
 export {
   Header,
   Footer,
@@ -20,4 +20,5 @@ export {
   PopularCompanies,
   HowItWorks,
   ApplicationForm,
+  LogOut,
 };
