@@ -18,4 +18,7 @@
   .main-btn {
     @apply mt-2 px-3 py-[6px] border-2 border-green hover:bg-transparent transition hover:text-green bg-green text-black rounded-md font-semibold text-lg;
   }
+  .load-btn {
+    @apply opacity-40 cursor-not-allowed hover:bg-green hover:text-black;
+  }
 }

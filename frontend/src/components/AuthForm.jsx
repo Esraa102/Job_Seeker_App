@@ -4,14 +4,28 @@ import { RiLockPasswordFill } from "react-icons/ri";
 import { FaUserGear } from "react-icons/fa6";
 import { useForm } from "react-hook-form";
 
-const AuthForm = ({ isRegister }) => {
+const AuthForm = ({ isRegister, sendData, isLoading }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
   const onSubmit = (data) => {
-    console.log(data);
+    if (isRegister) {
+      sendData({
+        username: data.username,
+        email: data.email,
+        role: data.role,
+        password: data.password,
+        phone: data.phone,
+      });
+    } else {
+      sendData({
+        email: data.email,
+        password: data.password,
+        role: data.role,
+      });
+    }
   };
   return (
     <form className="form" onSubmit={handleSubmit(onSubmit)}>
@@ -151,8 +165,15 @@ const AuthForm = ({ isRegister }) => {
           </p>
         )}
       </div>
-      <button type="submit" className="main-btn">
-        {isRegister ? "Sign Up" : "Sign In"}
+      <button
+        type="submit"
+        disabled={isLoading}
+        className={`main-btn ${isLoading && "load-btn"}`}
+      >
+        {isRegister && !isLoading && "Sign Up"}
+        {isRegister && isLoading && "Wait a second ..."}
+        {!isRegister && !isLoading && "Sign In"}
+        {!isRegister && isLoading && "Wait a second ..."}
       </button>
     </form>
   );

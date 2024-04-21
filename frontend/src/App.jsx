@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import { SignUp, SignIn, RootLayout, Home, ErrorPage } from "./pages";
+import { Toaster } from "react-hot-toast";
 function App() {
   return (
     <section>
@@ -13,6 +14,7 @@ function App() {
         </Route>
         <Route path="*" element={<ErrorPage />} />
       </Routes>
+      <Toaster />
     </section>
   );
 }
