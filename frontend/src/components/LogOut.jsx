@@ -31,7 +31,7 @@ const LogOut = () => {
       type="button"
       disabled={isLoading}
       onClick={handleLogOut}
-      className={`bg-[#000]/85 hover:scale-105 transition py-[6px] px-2 rounded-md text-white ${
+      className={`bg-[#000]/85 block w-fit hover:scale-105 transition py-[6px] px-2 rounded-md text-white ${
         isLoading && "opacity-40 cursor-not-allowed hover:scale-100"
       }`}
     >

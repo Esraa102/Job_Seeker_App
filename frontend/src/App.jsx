@@ -28,7 +28,7 @@ function App() {
           <Route path="/jobs" element={<Jobs />} />
           <Route path="/jobs/:id" element={<JobPage />} />
           {/* Private routes */}
-          <Route path="/jobs/post" element={<PostJob />} />
+          <Route path="/post-job" element={<PostJob />} />
           <Route path="/profile/:id" element={<Profile />} />
           <Route path="/saved" element={<SavedJobs />} />
           <Route path="/applied" element={<AppliedJobs />} />
