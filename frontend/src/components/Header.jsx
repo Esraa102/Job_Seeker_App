@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 const Header = () => {
   const { currentUser } = useSelector((state) => state.user);
   return (
-    <header className="bg-green fixed top-0 left-0 w-full z-10">
+    <header className="bg-green shadow-md fixed top-0 left-0 w-full z-10">
       <div className="container flex items-center gap-4 justify-between p-4 md:px-0 mx-auto">
         <Link to={"/"}>
           <img
