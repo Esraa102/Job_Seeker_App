@@ -11,6 +11,7 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import userSlice from "../features/user/slices/userSlice";
+import { userApiSlice } from "../features/user/api/userApi";
 
 const persistConfig = {
   key: "root",
@@ -18,6 +19,7 @@ const persistConfig = {
   storage,
 };
 const rootReducer = combineReducers({
+  [userApiSlice.reducerPath]: userApiSlice.reducer,
   user: userSlice,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
