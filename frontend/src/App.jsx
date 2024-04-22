@@ -26,7 +26,7 @@ function App() {
         <Route element={<RootLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/jobs" element={<Jobs />} />
-          <Route path="/jobs/:id" element={<JobPage />} />
+          <Route path="/job/:id" element={<JobPage />} />
           {/* Private routes */}
           <Route path="/post-job" element={<PostJob />} />
           <Route path="/profile/:id" element={<Profile />} />

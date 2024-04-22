@@ -11,6 +11,9 @@ const Jobs = () => {
       toast.error(error.data.message);
     }
     if (isSuccess) {
+      if (data.message) {
+        toast.error(data.message);
+      }
       setJobs(data.jobs);
     }
   }, [isError, isSuccess, data]);
@@ -20,7 +23,7 @@ const Jobs = () => {
         {isLoading && <Loader />}
         {isSuccess && data && (
           <div className="grid gap-10 grid-cols-2 md:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-4">
-            {jobs.map((job) => (
+            {jobs?.map((job) => (
               <JobCard key={job._id} job={job} />
             ))}
           </div>

@@ -9,6 +9,16 @@ export const jobsApiSlice = createApi({
       query: () => "all-jobs",
       providesTags: ["Jobs"],
     }),
+    getJobById: builder.query({
+      query: (jobId) => ({
+        method: "GET",
+        url: `job/${jobId}`,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+      providesTags: ["Jobs"],
+    }),
     postNewJob: builder.mutation({
       query: (jobInfo) => ({
         url: "create-job",
@@ -24,4 +34,5 @@ export const jobsApiSlice = createApi({
   }),
 });
 
-export const { useGetAllJobsQuery, usePostNewJobMutation } = jobsApiSlice;
+export const { useGetAllJobsQuery, useGetJobByIdQuery, usePostNewJobMutation } =
+  jobsApiSlice;
