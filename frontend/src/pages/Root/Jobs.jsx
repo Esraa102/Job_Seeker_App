@@ -13,6 +13,7 @@ const Jobs = () => {
     }
     if (isSuccess) {
       setJobs(data.jobs);
+      console.log(data);
     }
   }, [isError, isSuccess, data]);
   return (
@@ -20,9 +21,9 @@ const Jobs = () => {
       <div className="container mb-20 mx-auto p-4 md:px-0 pt-[150px]">
         <SearchJobs />
         {isLoading && <Loader />}
-        {isSuccess && data && (
+        {isSuccess && data && data.jobs && (
           <div className="grid gap-10 grid-cols-2 md:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-4">
-            {jobs?.map((job) => (
+            {jobs.map((job) => (
               <JobCard key={job._id} job={job} />
             ))}
           </div>

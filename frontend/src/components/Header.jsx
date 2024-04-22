@@ -45,29 +45,69 @@ const Header = () => {
                   All Jobs
                 </NavLink>
               </li>
+              {currentUser && currentUser.role === "Job Seeker" && (
+                <div className="flex gap-3 items-center">
+                  <li>
+                    <NavLink
+                      to={"/saved"}
+                      className={({ isActive }) =>
+                        `hover:text-[#000] transition ${
+                          isActive && "text-[#000] font-bold"
+                        }`
+                      }
+                    >
+                      Saved Jobs
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to={"/applied"}
+                      className={({ isActive }) =>
+                        `hover:text-[#000] transition ${
+                          isActive && "text-[#000] font-bold"
+                        }`
+                      }
+                    >
+                      Applied Jobs
+                    </NavLink>
+                  </li>
+                </div>
+              )}
               {currentUser && currentUser.role === "Employer" && (
-                <li>
-                  <NavLink
-                    to={"/post-job"}
-                    className={({ isActive }) =>
-                      `hover:text-[#000] transition ${
-                        isActive && "text-[#000] font-bold"
-                      }`
-                    }
-                  >
-                    Post Job
-                  </NavLink>
-                </li>
+                <div className="flex gap-3 items-center">
+                  <li>
+                    <NavLink
+                      to={"/post-job"}
+                      className={({ isActive }) =>
+                        `hover:text-[#000] transition ${
+                          isActive && "text-[#000] font-bold"
+                        }`
+                      }
+                    >
+                      Post Job
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to={"/jobs/me"}
+                      className={({ isActive }) =>
+                        `hover:text-[#000] transition ${
+                          isActive && "text-[#000] font-bold"
+                        }`
+                      }
+                    >
+                      My Jobs
+                    </NavLink>
+                  </li>
+                </div>
               )}
             </ul>
             <LogOut />
-            <Link to={`/profile/${currentUser?._id}`}>
-              <img
-                src="/assets/profile.png"
-                alt="profile"
-                className="w-[40px] h-[40px]"
-              />
-            </Link>
+            <img
+              src="/assets/profile.png"
+              alt="profile"
+              className="w-[40px] h-[40px]"
+            />
           </div>
 
           <button
@@ -104,31 +144,70 @@ const Header = () => {
                 All Jobs
               </NavLink>
             </li>
+            {currentUser && currentUser.role === "Job Seeker" && (
+              <div className="flex flex-col gap-3">
+                <li>
+                  <NavLink
+                    to={"/saved"}
+                    className={({ isActive }) =>
+                      `hover:text-[#000] transition ${
+                        isActive && "text-[#000] font-bold"
+                      }`
+                    }
+                  >
+                    Saved Jobs
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to={"/applied"}
+                    className={({ isActive }) =>
+                      `hover:text-[#000] transition ${
+                        isActive && "text-[#000] font-bold"
+                      }`
+                    }
+                  >
+                    Applied Jobs
+                  </NavLink>
+                </li>
+              </div>
+            )}
             {currentUser && currentUser.role === "Employer" && (
-              <li>
-                <NavLink
-                  to={"/post-job"}
-                  onClick={() => setShowMenue(false)}
-                  className={({ isActive }) =>
-                    `hover:text-[#000] transition ${isActive && "text-[#000]"}`
-                  }
-                >
-                  Post Job
-                </NavLink>
-              </li>
+              <div className="flex flex-col gap-3">
+                <li>
+                  <NavLink
+                    to={"/post-job"}
+                    className={({ isActive }) =>
+                      `hover:text-[#000] transition ${
+                        isActive && "text-[#000] font-bold"
+                      }`
+                    }
+                  >
+                    Post Job
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to={"/jobs/me"}
+                    className={({ isActive }) =>
+                      `hover:text-[#000] transition ${
+                        isActive && "text-[#000] font-bold"
+                      }`
+                    }
+                  >
+                    My Jobs
+                  </NavLink>
+                </li>
+              </div>
             )}
           </ul>
           <LogOut />
-          <Link
-            to={`/profile/${currentUser?._id}`}
+          <img
+            src="/assets/profile.png"
+            alt="profile"
             onClick={() => setShowMenue(false)}
-          >
-            <img
-              src="/assets/profile.png"
-              alt="profile"
-              className="w-[40px] h-[40px]"
-            />
-          </Link>
+            className="w-[40px] h-[40px]"
+          />
         </div>
       )}
     </>
