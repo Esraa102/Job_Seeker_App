@@ -27,11 +27,13 @@ const JobPage = () => {
   }, [isError, isSuccess]);
   useEffect(() => {
     if (currentUser.role === "Job Seeker") {
-      const isApplied = job.applications.filter((e) => {
-        return e.jobSeekerId === currentUser._id;
-      });
-      if (isApplied[0]) {
-        setApplied(true);
+      if (job) {
+        const isApplied = job.applications.filter((e) => {
+          return e.jobSeekerId === currentUser._id;
+        });
+        if (isApplied[0]) {
+          setApplied(true);
+        }
       }
     }
   }, [job]);
@@ -97,7 +99,7 @@ const JobPage = () => {
             </p>
             <div className="flex items-center gap-4 mt-8">
               {currentUser.role === "Employer" &&
-                currentUser._id === job?.employer.employerName && (
+                currentUser.username === job?.employer.employerName && (
                   <div className="flex items-center gap-4 mt-8">
                     <Link to={`/update-job/${job?._id}`} className="main-btn ">
                       Update Job
@@ -107,7 +109,7 @@ const JobPage = () => {
                 )}
               {currentUser.role === "Job Seeker" && !applied && (
                 <Link
-                  to={`/update-job/${job?._id}`}
+                  to={`/apply/${job?._id}`}
                   className="main-btn flex items-center gap-1"
                 >
                   <span>Apply Now</span> <AiFillThunderbolt size={22} />
@@ -115,9 +117,14 @@ const JobPage = () => {
               )}
             </div>
             {currentUser.role === "Employer" &&
-              currentUser._id === job?.employer.employerName && (
+              currentUser.username === job?.employer.employerName && (
                 <div className="mt-8">
                   <h2 className="text-2xl font-bold mb-6">Applications</h2>
+                  {job?.applicationsCount === 0 && (
+                    <p className="text-center text-gray-600">
+                      No One Applied Yet!
+                    </p>
+                  )}
                 </div>
               )}
           </div>

@@ -10,6 +10,8 @@ import HowItWorks from "./HowItWorks";
 import ApplicationForm from "./ApplicationForm";
 import LogOut from "./LogOut";
 import JobForm from "./JobForm";
+import SearchJobs from "./SearchJobs";
+
 export {
   Header,
   Footer,
@@ -23,4 +25,5 @@ export {
   ApplicationForm,
   LogOut,
   JobForm,
+  SearchJobs,
 };

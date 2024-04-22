@@ -30,7 +30,7 @@ const Hero = () => {
         {details.map((item) => (
           <div
             key={item.id}
-            className="p-4 w-[200px] rounded-md  bg-gray-200 flex gap-6 items-center"
+            className="p-4 flex-1 justify-center md:justify-start  w-[200px] rounded-md  bg-gray-200 flex gap-6 items-center"
           >
             <span className="text-4xl text-green">{item.icon}</span>
             <div>

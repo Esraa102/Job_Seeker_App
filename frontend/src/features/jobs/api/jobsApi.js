@@ -6,7 +6,13 @@ export const jobsApiSlice = createApi({
   tagTypes: ["Jobs"],
   endpoints: (builder) => ({
     getAllJobs: builder.query({
-      query: () => "all-jobs",
+      query: () => ({
+        method: "GET",
+        url: "all-jobs",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
       providesTags: ["Jobs"],
     }),
     getJobById: builder.query({

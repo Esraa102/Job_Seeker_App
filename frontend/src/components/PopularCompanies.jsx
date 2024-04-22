@@ -7,7 +7,7 @@ const PopularCompanies = () => {
         <h2 className="text-4xl font-bold text-black">
           Top <span className="text-green">Companies</span>
         </h2>
-        <div className="flex items-center justify-between flex-wrap  gap-10 my-10 ">
+        <div className="flex flex-col md:flex-row md:items-center justify-center md:justify-between flex-wrap  gap-10 my-10 ">
           {companies.map((item) => (
             <div
               key={item.id}

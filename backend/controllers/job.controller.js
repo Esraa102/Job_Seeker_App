@@ -36,9 +36,10 @@ const createJob = async (req, res, next) => {
 
 const getAllJobs = async (req, res, next) => {
   try {
-    const jobs = await Job.find({ expired: false });
+    const jobs = await Job.find();
     res.status(200).json({ jobs });
   } catch (error) {
+    console.log(error);
     next(customError(500), error.message);
   }
 };
