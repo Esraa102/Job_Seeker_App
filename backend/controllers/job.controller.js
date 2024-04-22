@@ -14,7 +14,7 @@ const createJob = async (req, res, next) => {
         jobType: req.body.jobType,
         description: req.body.description,
         rangeSalary: req.body.rangeSalary,
-        fixedSalary: req.body.fixedSalary,
+        fixedSalary: Number(req.body.fixedSalary),
         isRemote: req.body.isRemote,
         employer: {
           employerName: req.user.username,

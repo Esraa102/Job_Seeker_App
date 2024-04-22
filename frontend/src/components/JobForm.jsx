@@ -3,7 +3,8 @@ import { jobCategories } from "../data";
 import ReactQuill from "react-quill";
 import { useForm } from "react-hook-form";
 import "react-quill/dist/quill.snow.css";
-const JobForm = () => {
+
+const JobForm = ({ sendData, isLoading }) => {
   const quillRef = useRef(null);
   const {
     register,
@@ -12,7 +13,19 @@ const JobForm = () => {
     formState: { errors },
   } = useForm();
   const onSubmit = (data) => {
-    console.log(data);
+    sendData({
+      title: data.title,
+      category: data.category,
+      company: data.company,
+      location: data.location,
+      country: data.country,
+      city: data.city,
+      description: data.details,
+      jobType: data.jobType,
+      rangeSalary: [data.from, data.to],
+      fixedSalary: Number(data.fixedSalary),
+      isRemote: data.isRemote === "true" ? true : false,
+    });
   };
   useEffect(() => {
     register("details", {
@@ -305,8 +318,12 @@ const JobForm = () => {
         {errors.details && <p className="error">{errors.details.message}</p>}
       </div>
       <div className="flex items-center gap-4">
-        <button type="submit" className="main-btn">
-          Post Job
+        <button
+          disabled={isLoading}
+          type="submit"
+          className={`main-btn ${isLoading && "load-btn"}`}
+        >
+          {isLoading ? "Wait a second..." : "Post Job"}
         </button>
         <button
           type="button"

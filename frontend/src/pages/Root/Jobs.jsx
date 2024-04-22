@@ -12,23 +12,17 @@ const Jobs = () => {
     }
     if (isSuccess) {
       setJobs(data.jobs);
-      console.log(data.jobs);
     }
   }, [isError, isSuccess, data]);
   return (
     <section>
-      <div className="container mx-auto p-4 md:px-0 pt-[100px]">
+      <div className="container mb-20 mx-auto p-4 md:px-0 pt-[150px]">
         {isLoading && <Loader />}
         {isSuccess && data && (
-          <div className="grid gap-6 grid-cols-2 md:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-4">
+          <div className="grid gap-10 grid-cols-2 md:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-4">
             {jobs.map((job) => (
               <JobCard key={job._id} job={job} />
             ))}
-            <JobCard />
-            <JobCard />
-            <JobCard />
-            <JobCard />
-            <JobCard />
           </div>
         )}
       </div>

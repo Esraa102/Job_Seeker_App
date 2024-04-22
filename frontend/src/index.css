@@ -69,3 +69,30 @@ div.ql-container.ql-snow {
   color: #938e8e !important;
   font-size: 15px;
 }
+
+.job-content h1 {
+  margin: 10px 0;
+  font-size: 28px;
+  font-weight: bold;
+}
+.job-content h2 {
+  margin: 8px 0;
+  font-size: 23px;
+  font-weight: bold;
+}
+.job-content p {
+  font-size: 17px;
+  margin-bottom: 4px;
+  color: #656060 !important;
+  background-color: transparent !important;
+}
+
+.job-content span {
+  color: #656060 !important;
+  background-color: transparent !important;
+}
+.job-content a {
+  color: #0078ff !important;
+  text-decoration: underline !important;
+  background-color: transparent !important;
+}
