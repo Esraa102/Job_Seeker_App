@@ -145,3 +145,18 @@ export const companies = [
     icon: <FaApple />,
   },
 ];
+
+export const jobCategories = [
+  "Front End Development",
+  "Web Development",
+  "App Development",
+  "Cyber Security",
+  "Full Stack Development",
+  "UI & UX Desgin",
+  "Graphic Design",
+  "HR Hiring",
+  "Game Development",
+  "Video Editing",
+  "AI",
+  "Machine Learning",
+];

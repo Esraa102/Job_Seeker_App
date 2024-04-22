@@ -48,3 +48,24 @@
     aspect-ratio: 1;
   }
 }
+
+div.quill {
+  height: 350px;
+  border: 1px solid #1e2427;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+div.ql-toolbar.ql-snow {
+  border: none;
+  border-bottom: 1px solid #1e2427;
+}
+div.ql-container.ql-snow {
+  height: calc(100% - 43px);
+  border: none;
+}
+
+.ql-editor.ql-blank::before {
+  color: #938e8e !important;
+  font-size: 15px;
+}

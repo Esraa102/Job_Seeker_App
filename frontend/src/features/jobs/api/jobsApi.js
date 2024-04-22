@@ -1,0 +1,15 @@
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+
+export const jobsApiSlice = createApi({
+  reducerPath: "jobsApi",
+  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000/api/jobs" }),
+  tagTypes: ["Jobs"],
+  endpoints: (builder) => ({
+    getAllJobs: builder.query({
+      query: () => "all-jobs",
+      providesTags: ["Jobs"],
+    }),
+  }),
+});
+
+export const { useGetAllJobsQuery } = jobsApiSlice;

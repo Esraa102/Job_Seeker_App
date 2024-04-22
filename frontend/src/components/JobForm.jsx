@@ -1,0 +1,323 @@
+import { useRef, useEffect } from "react";
+import { jobCategories } from "../data";
+import ReactQuill from "react-quill";
+import { useForm } from "react-hook-form";
+import "react-quill/dist/quill.snow.css";
+const JobForm = () => {
+  const quillRef = useRef(null);
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm();
+  const onSubmit = (data) => {
+    console.log(data);
+  };
+  useEffect(() => {
+    register("details", {
+      required: "Job Details is required",
+      minLength: {
+        value: 30,
+        message: "Job Details must be at least 30 characters long",
+      },
+      maxLength: {
+        value: 3000,
+        message: "Job Details can't  be greater than 3000 characters long",
+      },
+    });
+  }, [register]);
+
+  return (
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="form my-8 border-2 border-green shadow-lg"
+    >
+      <div className="flex flex-col gap-3">
+        <label htmlFor="title" className="text-lg font-semibold">
+          Job Title
+        </label>
+        <input
+          type="text"
+          name="title"
+          id="title"
+          placeholder="MERN Stack Developer"
+          className={`input border-l rounded-md px-3 py-2 ${
+            errors.title && "border-2 border-red-600 focus:border-red-600"
+          }`}
+          {...register("title", {
+            required: "Job Title is Required",
+            minLength: {
+              value: 4,
+              message: "Job Title Should be at least 4 characters",
+            },
+            maxLength: {
+              value: 50,
+              message: "Job Title can't be greater than 50 characters",
+            },
+          })}
+        />
+        {errors.title && <p className="error">{errors.title.message}</p>}
+      </div>
+      <div className="flex flex-col gap-3">
+        <label htmlFor="category" className="text-lg font-semibold">
+          Job Category
+        </label>
+        <select
+          name="category"
+          className="input border-l rounded-md px-3 py-2"
+          id="category"
+          {...register("category")}
+        >
+          {jobCategories.map((item) => (
+            <option key={item} value={item}>
+              {item}
+            </option>
+          ))}
+        </select>
+      </div>
+      <div className="flex flex-col gap-3">
+        <label htmlFor="company" className="text-lg font-semibold">
+          Company Name
+        </label>
+        <input
+          type="text"
+          name="company"
+          id="company"
+          className={`input border-l rounded-md px-3 py-2 ${
+            errors.company && "border-2 border-red-600 focus:border-red-600"
+          }`}
+          placeholder="Facebook"
+          {...register("company", {
+            required: "Campnay Input is Required",
+            minLength: {
+              value: 2,
+              message: "Company Should be at least 2 characters",
+            },
+            maxLength: {
+              value: 50,
+              message: "Company can't be greater than 50 characters",
+            },
+          })}
+        />
+        {errors.company && <p className="error">{errors.company.message}</p>}
+      </div>
+      <div className="flex flex-col gap-3">
+        <label htmlFor="location" className="text-lg font-semibold">
+          Location
+        </label>
+        <input
+          type="text"
+          name="location"
+          id="location"
+          placeholder="El-Qalubia El-Khanka"
+          className={`input border-l rounded-md px-3 py-2 ${
+            errors.location && "border-2 border-red-600 focus:border-red-600"
+          }`}
+          {...register("location", {
+            required: "Location Input is Required",
+            minLength: {
+              value: 3,
+              message: "Location Should be at least 3 characters",
+            },
+            maxLength: {
+              value: 30,
+              message: "Location can't be greater than 30 characters",
+            },
+          })}
+        />
+        {errors.location && <p className="error">{errors.location.message}</p>}
+      </div>
+      <div className="flex flex-col gap-3">
+        <label htmlFor="fixed" className="text-lg font-semibold">
+          Fixed Salary
+        </label>
+        <input
+          type="number"
+          name="fixedSalary"
+          id="fixed"
+          placeholder="10K"
+          className={`input border-l rounded-md px-3 py-2 ${
+            errors.fixedSalary && "border-2 border-red-600 focus:border-red-600"
+          }`}
+          {...register("fixedSalary", {
+            required: "Fixed Salary is Required",
+            min: {
+              value: 500,
+              message: "Fixed Salary Should be at least $500",
+            },
+            max: {
+              value: 1000000,
+              message: "Fixed Salary can't be greater than $1M",
+            },
+          })}
+        />
+        {errors.fixedSalary && (
+          <p className="error">{errors.fixedSalary.message}</p>
+        )}
+      </div>
+      <div className="flex flex-col gap-3">
+        <label htmlFor="range" className="text-lg font-semibold">
+          Range Salary
+        </label>
+        <div className="flex items-center gap-3">
+          <div className="w-full flex flex-col gap-1">
+            <input
+              type="number"
+              name="range"
+              id="range"
+              placeholder="10K"
+              className={`input border-l rounded-md px-3 py-2 ${
+                errors.from && "border-2 border-red-600 focus:border-red-600"
+              }`}
+              {...register("from", {
+                required: "This Field is Required",
+                min: {
+                  value: 500,
+                  message: "This is field should be at least $500",
+                },
+                max: {
+                  value: 1000000,
+                  message: "This field can't be greater than $1M",
+                },
+              })}
+            />
+            {errors.from && <p className="error">{errors.from.message}</p>}
+          </div>
+          <span className="text-lg font-semibold">To</span>
+          <div className="w-full flex flex-col gap-1">
+            <input
+              type="number"
+              name="range"
+              id="range"
+              placeholder="20K"
+              className={`input border-l rounded-md px-3 py-2 ${
+                errors.to && "border-2 border-red-600 focus:border-red-600"
+              }`}
+              {...register("to", {
+                required: "This Field is Required",
+                min: {
+                  value: 500,
+                  message: "This is field should be at least $500",
+                },
+                max: {
+                  value: 1000000,
+                  message: "This field can't be greater than $1M",
+                },
+              })}
+            />
+            {errors.to && <p className="error">{errors.to.message}</p>}
+          </div>
+        </div>
+      </div>
+      <div className="flex flex-col gap-3">
+        <label htmlFor="city" className="text-lg font-semibold">
+          City
+        </label>
+        <input
+          type="text"
+          name="city"
+          className={`input border-l rounded-md px-3 py-2 ${
+            errors.city && "border-2 border-red-600 focus:border-red-600"
+          }`}
+          id="city"
+          placeholder="El-Khanka"
+          {...register("city", {
+            required: "City is Required",
+            minLength: {
+              value: 4,
+              message: "City Should be at least 4 characters",
+            },
+            maxLength: {
+              value: 50,
+              message: "City can't be greater than 50 characters",
+            },
+          })}
+        />
+        {errors.city && <p className="error">{errors.city.message}</p>}
+      </div>
+      <div className="flex flex-col gap-3">
+        <label htmlFor="type" className="text-lg font-semibold">
+          Job Type
+        </label>
+        <select
+          name="type"
+          id="type"
+          className="input border-l rounded-md px-3 py-2"
+          {...register("jobType")}
+        >
+          <option value="Full-time">Full-time</option>
+          <option value="Part-time">Part-time</option>
+        </select>
+      </div>
+      <div className="flex flex-col gap-3">
+        <label htmlFor="isRemote" className="text-lg font-semibold">
+          Is The Job Remote{" "}
+        </label>
+        <select
+          name="type"
+          id="type"
+          className="input border-l rounded-md px-3 py-2"
+          {...register("isRemote")}
+        >
+          <option value={true}>Yes</option>
+          <option value={false}>No</option>
+        </select>
+      </div>
+      <div className="flex flex-col gap-3">
+        <label htmlFor="country" className="text-lg font-semibold">
+          Country
+        </label>
+        <input
+          type="text"
+          className={`input border-l rounded-md px-3 py-2 ${
+            errors.country && "border-2 border-red-600 focus:border-red-600"
+          }`}
+          name="country"
+          id="country"
+          placeholder="Egypt"
+          {...register("country", {
+            required: "country is Required",
+            minLength: {
+              value: 4,
+              message: "coutry Should be at least 4 characters",
+            },
+            maxLength: {
+              value: 50,
+              message: "country can't be greater than 50 characters",
+            },
+          })}
+        />
+        {errors.country && <p className="error">{errors.country.message}</p>}
+      </div>
+      <div className="flex flex-col gap-3">
+        <label htmlFor="desc" className="text-lg font-semibold">
+          Job Details
+        </label>
+        <ReactQuill
+          id="desc"
+          ref={(el) => {
+            quillRef.current = el;
+          }}
+          onChange={(content) => setValue("details", content)}
+          placeholder="Write Something..."
+        />
+        {errors.details && <p className="error">{errors.details.message}</p>}
+      </div>
+      <div className="flex items-center gap-4">
+        <button type="submit" className="main-btn">
+          Post Job
+        </button>
+        <button
+          type="button"
+          className="main-btn bg-gray-500 border-gray-500 hover:bg-gray-600
+          hover:border-gray-600 text-white hover:text-white font-normal"
+        >
+          Cancel
+        </button>
+      </div>
+    </form>
+  );
+};
+
+export default JobForm;
