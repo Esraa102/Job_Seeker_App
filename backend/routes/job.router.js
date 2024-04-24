@@ -7,6 +7,7 @@ import {
   getJobById,
   updateJob,
   getMyJobs,
+  searchJobs,
 } from "../controllers/job.controller.js";
 const router = express.Router();
 
@@ -17,5 +18,6 @@ router.get("/my-jobs", verfiyToken, getMyJobs);
 
 router.get("/all-jobs", getAllJobs);
 router.get("/job/:jobId", getJobById);
+router.get("/search-job", searchJobs);
 
 export { router as jobRouter };

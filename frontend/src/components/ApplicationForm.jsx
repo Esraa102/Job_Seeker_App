@@ -1,13 +1,23 @@
 import { useForm } from "react-hook-form";
+import { useSelector } from "react-redux";
 
-const ApplicationForm = () => {
+const ApplicationForm = ({ sendData, id, isLoading }) => {
+  const { currentUser } = useSelector((state) => state.user);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
   const onSubmit = (data) => {
-    console.log(data);
+    sendData({
+      jobId: id,
+      firstName: data.first,
+      lastName: data.last,
+      email: data.email,
+      state: data.state,
+      phoneNumber: data.number,
+      coverLetter: data.letter,
+    });
   };
   return (
     <form className="form mx-0" onSubmit={handleSubmit(onSubmit)}>
@@ -71,20 +81,14 @@ const ApplicationForm = () => {
           type="text"
           name="email"
           id="email"
+          readOnly={true}
+          value={currentUser.email}
           placeholder="Eg: esraa1925@gmail.com"
-          className={`input border-l rounded-md px-3 py-2 ${
-            errors.email && "border-2 border-red-600 focus:border-red-600"
-          }`}
-          {...register("email", {
-            required: "Email is required",
-            pattern: {
-              value:
-                /^[a-zA-Z0-9_!#$%&*=+/?^{|}~]+([.-]?[a-zA-Z0-9_!#$%&*=+/?^{|}~]+)*@\w+([.-]?\w+)*(\.\w{2,50})+$/,
-              message: "Please enter invalid email",
-            },
-          })}
+          className={
+            "input border-l rounded-md focus:border-black px-3 text-lg  py-2"
+          }
+          {...register("email")}
         />
-        {errors.email && <p className="error">{errors.email.message}</p>}
       </div>
       <div className="flex flex-col gap-3">
         <label htmlFor="number" className="text-lg font-semibold">
@@ -143,13 +147,27 @@ const ApplicationForm = () => {
           id="state"
           cols="30"
           rows="10"
-          className="input border-l resize-none rounded-md px-3 py-2"
+          className={`input border-l resize-none rounded-md px-3 py-2 ${
+            errors.letter && "border-2 border-red-600 focus:border-red-600"
+          }`}
           placeholder="Provide your cover letter (optional)"
-          {...register("letter")}
+          {...register("letter", {
+            maxLength: {
+              value: 3000,
+              message: "Cover letter can't be greater than 3000 character",
+            },
+          })}
         ></textarea>
+        {errors.letter && <p className="error">{errors.letter.message}</p>}
       </div>
-      <button type="submit" className="main-btn block w-fit mb-6 text-white">
-        Submit Application
+      <button
+        type="submit"
+        disabled={isLoading}
+        className={`main-btn block w-full mb-6 mx-auto text-white ${
+          isLoading && "load-btn "
+        }`}
+      >
+        {isLoading ? "Wait a second..." : "Submit Application"}
       </button>
     </form>
   );

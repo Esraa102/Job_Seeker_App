@@ -36,10 +36,50 @@ const createJob = async (req, res, next) => {
 
 const getAllJobs = async (req, res, next) => {
   try {
-    const jobs = await Job.find();
+    const jobs = await Job.find().sort({ createdAt: -1 });
     res.status(200).json({ jobs });
   } catch (error) {
-    console.log(error);
+    next(customError(500), error.message);
+  }
+};
+
+const searchJobs = async (req, res, next) => {
+  try {
+    let publishedDate;
+    const now = new Date();
+    if (req.query.published && req.query.published === "day") {
+      publishedDate = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate() - 1
+      );
+    }
+    if (req.query.published && req.query.published === "week") {
+      publishedDate = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+    }
+    if (req.query.published && req.query.published === "month") {
+      publishedDate = new Date(
+        now.getFullYear(),
+        now.getMonth() - 1,
+        now.getDate()
+      );
+    }
+    const jobs = await Job.find({
+      ...(req.query.searchTerm && {
+        title: { $regex: req.query.searchTerm, $options: "i" },
+      }),
+      ...(req.query.category && { category: req.query.category }),
+      ...(req.query.location && {
+        location: { $regex: req.query.location, $options: "i" },
+      }),
+      ...(req.query.type && { jobType: req.query.type }),
+      ...(req.query.remote && {
+        isRemote: req.query.remote === "remote" ? true : false,
+      }),
+      ...(req.query.published && { createdAt: { $gte: publishedDate } }),
+    }).sort({ updatedAt: -1 });
+    res.status(200).json({ jobs });
+  } catch (error) {
     next(customError(500), error.message);
   }
 };
@@ -136,8 +176,6 @@ const getMyJobs = async (req, res, next) => {
   }
 };
 
-const searchJob = async (req, res, next) => {};
-
 export {
   createJob,
   getAllJobs,
@@ -145,5 +183,5 @@ export {
   updateJob,
   deleteJob,
   getMyJobs,
-  searchJob,
+  searchJobs,
 };

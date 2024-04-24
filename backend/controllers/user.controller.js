@@ -95,8 +95,9 @@ const logOutUser = async (req, res, next) => {
   res.clearCookie("access_token").status(200).json("Logged Out Successfully");
 };
 
-const saveJob = async (req, res, next) => {
+const saveOrUnsaveJob = async (req, res, next) => {
   if (req.user.role === "Job Seeker") {
+    let isJobSaved;
     try {
       const job = await Job.findById(req.params.jobId);
       if (!job) {
@@ -107,16 +108,24 @@ const saveJob = async (req, res, next) => {
           return e.jobId === req.params.jobId;
         });
         if (isSaved[0]) {
-          next(customError(res.status(403), "This job is already saved"));
+          console.log(isSaved[0]);
+          // if the job saved then unsave it
+          user.savedJobs = user.savedJobs.filter((e) => {
+            return e.jobId !== req.params.jobId;
+          });
+          await user.save();
+          isJobSaved = false;
         } else {
+          // if the job not saved then save it
           user.savedJobs.push({
             jobId: req.params.jobId,
             title: job.title,
             location: job.location,
           });
           await user.save();
-          res.status(200).json({ user });
+          isJobSaved = true;
         }
+        res.status(200).json({ user, isJobSaved });
       }
     } catch (error) {
       next(customError(res.status(500), error.message));
@@ -169,7 +178,7 @@ export {
   registerUser,
   logInUser,
   logOutUser,
-  saveJob,
+  saveOrUnsaveJob,
   deleteFromSaved,
   getUser,
 };

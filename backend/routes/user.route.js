@@ -5,7 +5,7 @@ import {
   logInUser,
   logOutUser,
   registerUser,
-  saveJob,
+  saveOrUnsaveJob,
 } from "../controllers/user.controller.js";
 import { verfiyToken } from "../middleware/verfiyToken.js";
 
@@ -14,7 +14,7 @@ const router = express.Router();
 router.post("/register", registerUser);
 router.post("/login", logInUser);
 router.get("/logout", logOutUser);
-router.post("/save/:jobId", verfiyToken, saveJob);
+router.post("/save-unsave/:jobId", verfiyToken, saveOrUnsaveJob);
 router.delete("/delete-saved/:jobId", verfiyToken, deleteFromSaved);
-router.get("/get-user/:userId", verfiyToken, getUser);
+router.get("/get-user/:userId", getUser);
 export { router as userRouter };

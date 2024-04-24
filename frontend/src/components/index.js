@@ -11,7 +11,10 @@ import ApplicationForm from "./ApplicationForm";
 import LogOut from "./LogOut";
 import JobForm from "./JobForm";
 import SearchJobs from "./SearchJobs";
-
+import NotFound from "./NotFound";
+import UnSaveJob from "./UnSaveJob";
+import SaveJob from "./SaveJob";
+import UserJobCard from "./UserJobCard";
 export {
   Header,
   Footer,
@@ -26,4 +29,8 @@ export {
   LogOut,
   JobForm,
   SearchJobs,
+  NotFound,
+  UnSaveJob,
+  SaveJob,
+  UserJobCard,
 };
