@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
+import { countryCodes } from "../data";
 
 const ApplicationForm = ({ sendData, id, isLoading }) => {
   const { currentUser } = useSelector((state) => state.user);
@@ -15,7 +16,7 @@ const ApplicationForm = ({ sendData, id, isLoading }) => {
       lastName: data.last,
       email: data.email,
       state: data.state,
-      phoneNumber: data.number,
+      phoneNumber: data.code.toString() + data.number.toString(),
       coverLetter: data.letter,
     });
   };
@@ -94,22 +95,44 @@ const ApplicationForm = ({ sendData, id, isLoading }) => {
         <label htmlFor="number" className="text-lg font-semibold">
           Phone Number
         </label>
-        <input
-          type="text"
-          name="number"
-          id="number"
-          placeholder="Eg: +201000148332"
-          className={`input border-l rounded-md px-3 py-2 ${
-            errors.last && "border-2 border-red-600 focus:border-red-600"
-          }`}
-          {...register("number", {
-            required: "Phone Number required",
-            pattern: {
-              value: /^\+?\d{6}[- ]?\d{3}[- ]?\d{3}$/,
-              message: "Please enter invalid phone number",
-            },
-          })}
-        />
+        <div className="flex gap-3 items-center flex-wrap">
+          <select
+            className="input font-semibold w-fit cursor-pointer border-l rounded-md px-3 py-2"
+            name="code"
+            id="code"
+            {...register("code")}
+          >
+            {countryCodes.map((e) => (
+              <option
+                className="cursor-pointer font-semibold"
+                key={e.code}
+                value={e.dial_code}
+              >
+                {e.name} ({e.dial_code})
+              </option>
+            ))}
+          </select>
+          <input
+            type="number"
+            name="number"
+            id="number"
+            placeholder="Eg: 01000148332"
+            className={`input flex-1 border-l rounded-md px-3 py-2 ${
+              errors.last && "border-2 border-red-600 focus:border-red-600"
+            }`}
+            {...register("number", {
+              required: "Phone Number required",
+              min: {
+                value: 9,
+                message: "Phone Number should be at least 9 digits",
+              },
+              max: {
+                value: 20,
+                message: "Phone number can't be greater than 20 digits",
+              },
+            })}
+          />
+        </div>
         {errors.number && <p className="error">{errors.number.message}</p>}
       </div>
       <div className="flex flex-col gap-3">
