@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const userApiSlice = createApi({
   reducerPath: "userApi",
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000/api/user" }),
-  tagTypes: ["User", "Job", "Appilcation"],
+  tagTypes: ["User", "Jobs", "Appilcation"],
   endpoints: (builder) => ({
     registerUser: builder.mutation({
       query: (userInfo) => ({
@@ -43,7 +43,7 @@ export const userApiSlice = createApi({
         },
         credentials: "include",
       }),
-      providesTags: ["User", "Job", "Appilcation"],
+      providesTags: ["User", "Jobs", "Appilcation"],
     }),
     saveJob: builder.mutation({
       query: (jobId) => ({
@@ -54,7 +54,7 @@ export const userApiSlice = createApi({
           "Content-Type": "application/json",
         },
       }),
-      invalidatesTags: ["User", "Job"],
+      invalidatesTags: ["User", "Jobs", "Appilcation"],
     }),
   }),
 });

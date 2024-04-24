@@ -22,7 +22,7 @@ const SavedJobs = () => {
         setSaved(data.userData.savedJobs);
       }
     }
-  }, [isError, isSuccess]);
+  }, [isError, isSuccess, data]);
   return (
     <section>
       <div className="container mx-auto p-4 md:px-0 pt-[100px]">

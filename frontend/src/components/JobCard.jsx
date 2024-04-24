@@ -28,10 +28,12 @@ const JobCard = ({ job }) => {
         });
         if (isJobSaved[0]) {
           setIsSaved(true);
+        } else {
+          setIsSaved(false);
         }
       }
     }
-  }, [job]);
+  }, [job, data]);
   return (
     <div className="p-6 relative flex flex-col gap-4 justify-between rounded-md shadow-lg border-2 hover:scale-105 transition border-green">
       <div className="absolute top-4 right-4 flex items-center gap-2">
@@ -63,11 +65,10 @@ const JobCard = ({ job }) => {
               {job?.jobType}
             </p>
           )}
-          {job?.applicationsCount && (
-            <p className="bg-green/40 font-semibold px-3 py-1 w-fit my-2 rounded-md">
-              {job?.applicationsCount} Applications
-            </p>
-          )}
+          <p className="bg-green/40 font-semibold px-3 py-1 w-fit my-2 rounded-md">
+            {job?.applicationsCount} Applications
+          </p>
+
           {job?.isRemote && (
             <p className="bg-green/40 font-semibold px-3 py-1 w-fit my-2 rounded-md">
               Remote
