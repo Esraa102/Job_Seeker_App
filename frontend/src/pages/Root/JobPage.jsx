@@ -78,10 +78,11 @@ const JobPage = () => {
             </p>
             <div className="flex gap-2 items-center flex-wrap">
               <p className="bg-green/40 font-semibold px-3 py-1 w-fit my-2 rounded-md">
-                ${job?.fixedSalary}
+                ${job?.fixedSalary.toLocaleString()}
               </p>
               <p className="bg-green/40 font-semibold px-3 py-1 w-fit my-2 rounded-md">
-                ${job?.rangeSalary[0]} - ${job?.rangeSalary[1]}
+                ${Number(job?.rangeSalary[0]).toLocaleString()} - $
+                {Number(job?.rangeSalary[1]).toLocaleString()}
               </p>
               <p className="bg-green/40 font-semibold px-3 py-1 w-fit my-2 rounded-md">
                 {job?.jobType}

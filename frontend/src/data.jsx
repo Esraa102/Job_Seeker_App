@@ -159,6 +159,8 @@ export const jobCategories = [
   "Video Editing",
   "AI",
   "Machine Learning",
+  "Customer Services",
+  "Education",
 ];
 
 export const countryCodes = [

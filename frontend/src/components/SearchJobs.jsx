@@ -4,7 +4,6 @@ import { jobCategories } from "../data";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { IoFilter } from "react-icons/io5";
-
 const SearchJobs = ({ sendData }) => {
   const [searchData, setSearchData] = useState({
     searchTerm: "",
@@ -14,6 +13,7 @@ const SearchJobs = ({ sendData }) => {
     remote: "",
     published: "",
   });
+
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setSearchData({ ...searchData, [name]: value });
@@ -53,6 +53,7 @@ const SearchJobs = ({ sendData }) => {
   useEffect(() => {
     handleSearch();
   }, [searchData]);
+
   const handleClearFilter = () => {
     setSearchData({
       searchTerm: "",

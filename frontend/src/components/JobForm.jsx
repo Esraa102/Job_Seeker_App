@@ -38,8 +38,8 @@ const JobForm = ({ sendData, isLoading, defaultValues, jobId }) => {
         message: "Job Details must be at least 30 characters long",
       },
       maxLength: {
-        value: 3000,
-        message: "Job Details can't  be greater than 3000 characters long",
+        value: 10000,
+        message: "Job Details can't  be greater than 10000 characters long",
       },
     });
   }, [register]);
@@ -69,8 +69,8 @@ const JobForm = ({ sendData, isLoading, defaultValues, jobId }) => {
               message: "Job Title Should be at least 4 characters",
             },
             maxLength: {
-              value: 50,
-              message: "Job Title can't be greater than 50 characters",
+              value: 100,
+              message: "Job Title can't be greater than 100 characters",
             },
           })}
         />
@@ -306,8 +306,8 @@ const JobForm = ({ sendData, isLoading, defaultValues, jobId }) => {
           {...register("country", {
             required: "country is Required",
             minLength: {
-              value: 4,
-              message: "coutry Should be at least 4 characters",
+              value: 2,
+              message: "coutry Should be at least 2 characters",
             },
             maxLength: {
               value: 50,
