@@ -15,6 +15,7 @@ import NotFound from "./NotFound";
 import UnSaveJob from "./UnSaveJob";
 import SaveJob from "./SaveJob";
 import UserJobCard from "./UserJobCard";
+import DeleteJob from "./DeleteJob";
 export {
   Header,
   Footer,
@@ -33,4 +34,5 @@ export {
   UnSaveJob,
   SaveJob,
   UserJobCard,
+  DeleteJob,
 };

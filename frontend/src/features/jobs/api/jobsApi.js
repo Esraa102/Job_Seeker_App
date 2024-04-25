@@ -70,6 +70,17 @@ export const jobsApiSlice = createApi({
       }),
       invalidatesTags: ["User", "Jobs", "Appilcation", "Job"],
     }),
+    deleteJob: builder.mutation({
+      query: (jobId) => ({
+        url: `delete-job/${jobId}`,
+        method: "DELETE",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+      invalidatesTags: ["User", "Jobs", "Appilcation", "Job"],
+    }),
   }),
 });
 
@@ -80,4 +91,5 @@ export const {
   usePostNewJobMutation,
   useUpdateJobMutation,
   useGetMyJobsMutation,
+  useDeleteJobMutation,
 } = jobsApiSlice;

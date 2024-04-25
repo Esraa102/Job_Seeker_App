@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { NotFound, Loader } from "../../components";
+import { NotFound, Loader, DeleteJob } from "../../components";
 import { useGetMyJobsMutation } from "../../features/jobs/api/jobsApi";
 import toast from "react-hot-toast";
-import { MdEditDocument, MdDelete } from "react-icons/md";
+import { MdEditDocument } from "react-icons/md";
 import { formateDate } from "../../utils/formateDate";
 
 const MyJobs = () => {
@@ -82,12 +82,12 @@ const MyJobs = () => {
                       >
                         <MdEditDocument size={24} />
                       </Link>
-                      <button
-                        type="button"
-                        className="hover:text-red-600 transition"
-                      >
-                        <MdDelete size={24} />
-                      </button>
+                      <DeleteJob
+                        jobId={job._id}
+                        table={true}
+                        jobs={myJobs}
+                        setJobs={setMyJobs}
+                      />
                     </td>
                   </tr>
                 ))}

@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { useGetJobByIdMutation } from "../../features/jobs/api/jobsApi";
 import toast from "react-hot-toast";
-import { Loader } from "../../components";
+import { DeleteJob, Loader } from "../../components";
 import { useParams } from "react-router-dom";
 import { FaLocationDot } from "react-icons/fa6";
 import { useSelector } from "react-redux";
@@ -111,7 +111,7 @@ const JobPage = () => {
                     <Link to={`/update-job/${job?._id}`} className="main-btn ">
                       Update Job
                     </Link>
-                    <button type="button">Delete Job</button>
+                    <DeleteJob jobId={job?._id} table={false} />
                   </div>
                 )}
               {currentUser.role === "Job Seeker" && !applied && (
