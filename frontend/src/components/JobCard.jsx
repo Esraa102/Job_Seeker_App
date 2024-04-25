@@ -42,9 +42,10 @@ const JobCard = ({ job }) => {
             Applied
           </p>
         )}
-        {currentUser.role === "Job Seeker" && isSaved ? (
+        {isSaved && currentUser.role === "Job Seeker" && (
           <UnSaveJob jobId={job?._id} />
-        ) : (
+        )}
+        {!isSaved && currentUser.role === "Job Seeker" && (
           <SaveJob jobId={job?._id} />
         )}
       </div>

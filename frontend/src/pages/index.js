@@ -10,6 +10,7 @@ import SavedJobs from "./Root/SavedJobs";
 import PostJob from "./Root/PostJob";
 import ApplyJob from "./Root/ApplyJob";
 import MyJobs from "./Root/MyJobs";
+import UpdateJob from "./Root/UpdateJob";
 export {
   SignIn,
   SignUp,
@@ -23,4 +24,5 @@ export {
   PostJob,
   ApplyJob,
   MyJobs,
+  UpdateJob,
 };

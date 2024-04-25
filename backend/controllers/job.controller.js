@@ -101,19 +101,19 @@ const getJobById = async (req, res, next) => {
 const updateJob = async (req, res, next) => {
   if (req.user.role === "Employer") {
     try {
-      const job = await Job.findById(req.params.jobId);
-      if (!job) {
+      const selectedJob = await Job.findById(req.params.jobId);
+      if (!selectedJob) {
         next(customError(res.status(404), "Job Not Found"));
       } else {
-        if (req.user._id === job.employer.employerId) {
-          const updatedJob = await Job.findByIdAndUpdate(
+        if (req.user._id === selectedJob.employer.employerId) {
+          const job = await Job.findByIdAndUpdate(
             req.params.jobId,
             {
               ...req.body,
             },
             { new: true }
           );
-          res.status(200).json({ updatedJob });
+          res.status(200).json({ job });
         } else {
           next(
             customError(
@@ -161,7 +161,9 @@ const deleteJob = async (req, res, next) => {
 const getMyJobs = async (req, res, next) => {
   if (req.user.role === "Employer") {
     try {
-      const myJobs = await Job.find({ "employer.employerId": req.user._id });
+      const myJobs = await Job.find({
+        "employer.employerId": req.user._id,
+      }).sort({ createdAt: -1 });
       res.status(200).json({ jobs: myJobs });
     } catch (error) {
       customError(res.status(500), error.message);

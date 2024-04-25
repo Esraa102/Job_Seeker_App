@@ -89,7 +89,7 @@ const Header = () => {
                   </li>
                   <li>
                     <NavLink
-                      to={"/jobs/me"}
+                      to={"/my-jobs"}
                       className={({ isActive }) =>
                         `hover:text-[#000] transition ${
                           isActive && "text-[#000] font-bold"
@@ -120,7 +120,7 @@ const Header = () => {
         </div>
       </header>
       {showMenue && (
-        <div className="flex fixed top-[90px] rounded-md p-4 border-2 border-green backdrop-blur-lg right-4 w-[70%]  flex-col md:hidden  gap-3">
+        <div className="flex z-10 fixed top-[90px] rounded-md p-4 border-2 border-green backdrop-blur-lg right-4 w-[70%]  flex-col md:hidden  gap-3">
           <ul className="flex gap-3 flex-col text-gray-700 text-lg font-semibold">
             <li>
               <NavLink
@@ -188,7 +188,7 @@ const Header = () => {
                 </li>
                 <li>
                   <NavLink
-                    to={"/jobs/me"}
+                    to={"/my-jobs"}
                     className={({ isActive }) =>
                       `hover:text-[#000] transition ${
                         isActive && "text-[#000] font-bold"

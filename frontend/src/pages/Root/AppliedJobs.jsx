@@ -25,7 +25,7 @@ const AppliedJobs = () => {
   }, [isError, isSuccess]);
   return (
     <section>
-      <div className="container mx-auto p-4 md:px-0 pt-[100px]">
+      <div className="container mb-20 mx-auto p-4 md:px-0 pt-[100px]">
         <h1 className="text-3xl my-6 text-green font-bold">
           Your Applied Jobs
         </h1>

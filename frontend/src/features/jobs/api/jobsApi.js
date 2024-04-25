@@ -3,9 +3,9 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const jobsApiSlice = createApi({
   reducerPath: "jobsApi",
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000/api/jobs" }),
-  tagTypes: ["Jobs"],
+  tagTypes: ["User", "Jobs", "Appilcation", "Job"],
   endpoints: (builder) => ({
-    getAllJobs: builder.query({
+    getAllJobs: builder.mutation({
       query: () => ({
         method: "GET",
         url: "all-jobs",
@@ -13,9 +13,9 @@ export const jobsApiSlice = createApi({
           "Content-Type": "application/json",
         },
       }),
-      providesTags: ["Jobs"],
+      invalidatesTags: ["User", "Jobs", "Appilcation", "Job"],
     }),
-    getJobById: builder.query({
+    getJobById: builder.mutation({
       query: (jobId) => ({
         method: "GET",
         url: `job/${jobId}`,
@@ -23,7 +23,7 @@ export const jobsApiSlice = createApi({
           "Content-Type": "application/json",
         },
       }),
-      providesTags: ["Jobs"],
+      invalidatesTags: ["User", "Jobs", "Appilcation", "Job"],
     }),
     searchJob: builder.mutation({
       query: (searchQuery) => ({
@@ -33,7 +33,7 @@ export const jobsApiSlice = createApi({
           "Content-Type": "application/json",
         },
       }),
-      invalidatesTags: ["Jobs"],
+      invalidatesTags: ["User", "Jobs", "Appilcation", "Job"],
     }),
     postNewJob: builder.mutation({
       query: (jobInfo) => ({
@@ -45,14 +45,39 @@ export const jobsApiSlice = createApi({
         },
         body: jobInfo,
       }),
-      invalidatesTags: ["Jobs"],
+      invalidatesTags: ["User", "Jobs", "Appilcation", "Job"],
+    }),
+    updateJob: builder.mutation({
+      query: (info) => ({
+        url: `update-job/${info.jobId}`,
+        method: "PUT",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: info,
+      }),
+      invalidatesTags: ["User", "Jobs", "Appilcation", "Job"],
+    }),
+    getMyJobs: builder.mutation({
+      query: () => ({
+        url: "my-jobs",
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+      invalidatesTags: ["User", "Jobs", "Appilcation", "Job"],
     }),
   }),
 });
 
 export const {
-  useGetAllJobsQuery,
-  useGetJobByIdQuery,
+  useGetAllJobsMutation,
+  useGetJobByIdMutation,
   useSearchJobMutation,
   usePostNewJobMutation,
+  useUpdateJobMutation,
+  useGetMyJobsMutation,
 } = jobsApiSlice;

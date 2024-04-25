@@ -12,6 +12,7 @@ import {
   PostJob,
   ApplyJob,
   MyJobs,
+  UpdateJob,
 } from "./pages";
 import { Toaster } from "react-hot-toast";
 import { useSelector } from "react-redux";
@@ -35,6 +36,16 @@ function App() {
             element={
               currentUser && currentUser.role === "Employer" ? (
                 <PostJob />
+              ) : (
+                <Navigate to={"/sign-in"} />
+              )
+            }
+          />
+          <Route
+            path="/update-job/:id"
+            element={
+              currentUser && currentUser.role === "Employer" ? (
+                <UpdateJob />
               ) : (
                 <Navigate to={"/sign-in"} />
               )
@@ -71,7 +82,7 @@ function App() {
             }
           />
           <Route
-            path="/jobs/me"
+            path="/my-jobs"
             element={
               currentUser && currentUser.role === "Employer" ? (
                 <MyJobs />

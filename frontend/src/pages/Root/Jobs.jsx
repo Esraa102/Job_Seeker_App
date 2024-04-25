@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import {
-  useGetAllJobsQuery,
+  useGetAllJobsMutation,
   useSearchJobMutation,
 } from "../../features/jobs/api/jobsApi";
 import toast from "react-hot-toast";
@@ -9,7 +9,8 @@ import { JobCard, Loader, NotFound, SearchJobs } from "../../components";
 
 const Jobs = () => {
   const [jobs, setJobs] = useState([]);
-  const { data, isError, isSuccess, error, isLoading } = useGetAllJobsQuery();
+  const [getAllJobs, { data, isError, isSuccess, error, isLoading }] =
+    useGetAllJobsMutation();
   const [
     searchJob,
     {
@@ -21,6 +22,9 @@ const Jobs = () => {
     },
   ] = useSearchJobMutation();
   useEffect(() => {
+    getAllJobs();
+  }, []);
+  useEffect(() => {
     if (isError) {
       toast.error(error.data?.message || error.error);
     }
@@ -29,8 +33,6 @@ const Jobs = () => {
         toast.error(data.message);
       } else {
         setJobs(data.jobs);
-        console.log(data.jobs);
-        console.log(jobs);
       }
     }
   }, [isError, isSuccess, data]);

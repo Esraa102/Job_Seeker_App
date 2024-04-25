@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
-import { useGetJobByIdQuery } from "../../features/jobs/api/jobsApi";
+import { useGetJobByIdMutation } from "../../features/jobs/api/jobsApi";
 import toast from "react-hot-toast";
 import { Loader } from "../../components";
 import { useParams } from "react-router-dom";
@@ -14,17 +14,20 @@ const JobPage = () => {
   const { currentUser } = useSelector((state) => state.user);
   const [applied, setApplied] = useState(false);
   const { id } = useParams();
-  const { data, isError, isLoading, isSuccess, error } = useGetJobByIdQuery(id);
+  const [getJobById, { data, isError, isLoading, isSuccess, error }] =
+    useGetJobByIdMutation();
   const [job, setJob] = useState(null);
+  useEffect(() => {
+    getJobById(id);
+  }, [id]);
   useEffect(() => {
     if (isError) {
       toast.error(error.data.message);
     }
     if (isSuccess) {
-      console.log(data);
       setJob(data.job);
     }
-  }, [isError, isSuccess]);
+  }, [isError, isSuccess, id]);
   useEffect(() => {
     if (currentUser.role === "Job Seeker") {
       if (job) {
@@ -43,24 +46,28 @@ const JobPage = () => {
         {isLoading && <Loader />}
         {isSuccess && data && (
           <div className="relative">
-            <div className="absolute top-4 right-4 flex items-center gap-4">
-              {job?.expired ? (
-                <p className="bg-red-600/90 text-white text-lg font-semibold px-3 py-1 w-fit my-2 rounded-md">
-                  Closed
-                </p>
-              ) : (
-                <p className="bg-green/40 text-lg font-semibold px-3 py-1 w-fit my-2 rounded-md">
-                  {job?.applicationsCount} Applications
-                </p>
-              )}
-              {applied && (
-                <p className="bg-green/60 text-lg font-semibold px-3 py-1 w-fit rounded-md">
-                  Applied
-                </p>
-              )}
-              {currentUser.role === "Job Seeker" && <FaRegBookmark size={22} />}
+            <div className="flex gap-4 my-8 items-center justify-between flex-wrap">
+              <h1 className="text-4xl  font-bold">{job?.title}</h1>
+              <div className="flex items-center gap-4">
+                {job?.expired ? (
+                  <p className="bg-red-600/90 text-white text-lg font-semibold px-3 py-1 w-fit my-2 rounded-md">
+                    Closed
+                  </p>
+                ) : (
+                  <p className="bg-green/40 text-lg font-semibold px-3 py-1 w-fit my-2 rounded-md">
+                    {job?.applicationsCount} Applications
+                  </p>
+                )}
+                {applied && (
+                  <p className="bg-green/60 text-lg font-semibold px-3 py-1 w-fit rounded-md">
+                    Applied
+                  </p>
+                )}
+                {currentUser.role === "Job Seeker" && (
+                  <FaRegBookmark size={22} />
+                )}
+              </div>
             </div>
-            <h1 className="text-4xl my-4 font-bold">{job?.title}</h1>
             <p className="text-black font-semibold capitalize">
               Employer Name: {job?.employer.employerName}
             </p>

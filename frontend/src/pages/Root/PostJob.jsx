@@ -24,7 +24,7 @@ const PostJob = () => {
         <h1 className="text-center text-green text-3xl font-bold">
           Post Your Job
         </h1>
-        <JobForm sendData={postNewJob} isLoading={isLoading} />
+        <JobForm sendData={postNewJob} isLoading={isLoading} isUpdate={false} />
       </div>
     </section>
   );
