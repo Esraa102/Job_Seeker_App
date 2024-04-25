@@ -36,26 +36,33 @@ const JobCard = ({ job }) => {
   }, [job, data]);
   return (
     <div className="p-6 relative flex flex-col gap-4 justify-between rounded-md shadow-lg border-2 hover:scale-105 transition border-green">
-      <div className="absolute top-4 right-4 flex items-center gap-2">
-        {applied && (
-          <p className="bg-green/60 font-semibold px-3 py-1 w-fit rounded-md">
-            Applied
-          </p>
-        )}
-        {isSaved && currentUser.role === "Job Seeker" && (
-          <UnSaveJob jobId={job?._id} />
-        )}
-        {!isSaved && currentUser.role === "Job Seeker" && (
-          <SaveJob jobId={job?._id} />
-        )}
-      </div>
       <div>
-        <Link
-          to={`/job/${job?._id}`}
-          className="text-2xl mb-3 hover:underline font-bold w-[80%]"
-        >
-          {job?.title}
-        </Link>
+        <div className="flex items-center gap-4 justify-between flex-wrap">
+          <Link
+            to={`/job/${job?._id}`}
+            className="text-2xl mb-3 hover:underline font-bold w-[80%]"
+          >
+            {job?.title}
+          </Link>
+          <div className=" flex items-center gap-2">
+            {applied && (
+              <p className="bg-green/60 font-semibold px-3 py-1 w-fit rounded-md">
+                Applied
+              </p>
+            )}
+            {job?.expired && (
+              <p className="bg-[#f00]/90 text-sm  text-white  font-normal px-3 py-1 w-fit my-2 rounded-md">
+                Closed
+              </p>
+            )}
+            {isSaved && currentUser.role === "Job Seeker" && (
+              <UnSaveJob jobId={job?._id} />
+            )}
+            {!isSaved && currentUser.role === "Job Seeker" && (
+              <SaveJob jobId={job?._id} />
+            )}
+          </div>
+        </div>
         <p className="text-black font-semibold flex items-center gap-1">
           <FaLocationDot size={18} className="text-gray-400" />{" "}
           <span>{job?.location}</span>

@@ -5,8 +5,9 @@ import { useForm } from "react-hook-form";
 import "react-quill/dist/quill.snow.css";
 import { useNavigate } from "react-router-dom";
 
-const JobForm = ({ sendData, isLoading, defaultValues, jobId }) => {
+const JobForm = ({ isUpdate, sendData, isLoading, defaultValues, jobId }) => {
   const quillRef = useRef(null);
+  console.log(defaultValues);
   const {
     register,
     handleSubmit,
@@ -28,6 +29,7 @@ const JobForm = ({ sendData, isLoading, defaultValues, jobId }) => {
       rangeSalary: [data.from, data.to],
       fixedSalary: Number(data.fixedSalary),
       isRemote: data.isRemote === "true" ? true : false,
+      expired: data.isExpired === "true" ? true : false,
     });
   };
   useEffect(() => {
@@ -290,6 +292,23 @@ const JobForm = ({ sendData, isLoading, defaultValues, jobId }) => {
           <option value={false}>No</option>
         </select>
       </div>
+      {isUpdate && (
+        <div className="flex flex-col gap-3">
+          <label htmlFor="expired" className="text-lg font-semibold">
+            Is The Position Taken?{" "}
+          </label>
+          <select
+            name="expired"
+            id="expired"
+            defaultValue={defaultValues?.expired}
+            className="input border-l rounded-md px-3 py-2"
+            {...register("isExpired")}
+          >
+            <option value={true}>Yes</option>
+            <option value={false}>No</option>
+          </select>
+        </div>
+      )}
       <div className="flex flex-col gap-3">
         <label htmlFor="country" className="text-lg font-semibold">
           Country

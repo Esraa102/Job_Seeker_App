@@ -2,17 +2,19 @@
 import { useEffect, useState } from "react";
 import { useGetJobByIdMutation } from "../../features/jobs/api/jobsApi";
 import toast from "react-hot-toast";
-import { DeleteJob, Loader } from "../../components";
+import { DeleteJob, Loader, SaveJob, UnSaveJob } from "../../components";
 import { useParams } from "react-router-dom";
 import { FaLocationDot } from "react-icons/fa6";
 import { useSelector } from "react-redux";
-import { FaRegBookmark } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { AiFillThunderbolt } from "react-icons/ai";
+import { useGetUserByIdQuery } from "../../features/user/api/userApi";
 
 const JobPage = () => {
   const { currentUser } = useSelector((state) => state.user);
+  const { data: user } = useGetUserByIdQuery(currentUser._id);
   const [applied, setApplied] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
   const { id } = useParams();
   const [getJobById, { data, isError, isLoading, isSuccess, error }] =
     useGetJobByIdMutation();
@@ -38,8 +40,18 @@ const JobPage = () => {
           setApplied(true);
         }
       }
+      if (user) {
+        const isJobSaved = user.userData?.savedJobs.filter((ele) => {
+          return ele.jobId === job?._id;
+        });
+        if (isJobSaved[0]) {
+          setIsSaved(true);
+        } else {
+          setIsSaved(false);
+        }
+      }
     }
-  }, [job]);
+  }, [job, user]);
   return (
     <section>
       <div className="container mb-20 mx-auto p-4 md:px-0 pt-[150px]">
@@ -50,7 +62,7 @@ const JobPage = () => {
               <h1 className="text-4xl  font-bold">{job?.title}</h1>
               <div className="flex items-center gap-4">
                 {job?.expired ? (
-                  <p className="bg-red-600/90 text-white text-lg font-semibold px-3 py-1 w-fit my-2 rounded-md">
+                  <p className="bg-[#f00]/90 text-white text-lg font-normal px-3 py-1 w-fit my-2 rounded-md">
                     Closed
                   </p>
                 ) : (
@@ -63,8 +75,11 @@ const JobPage = () => {
                     Applied
                   </p>
                 )}
-                {currentUser.role === "Job Seeker" && (
-                  <FaRegBookmark size={22} />
+                {isSaved && currentUser.role === "Job Seeker" && (
+                  <UnSaveJob jobId={job?._id} />
+                )}
+                {!isSaved && currentUser.role === "Job Seeker" && (
+                  <SaveJob jobId={job?._id} />
                 )}
               </div>
             </div>
@@ -118,7 +133,9 @@ const JobPage = () => {
               {currentUser.role === "Job Seeker" && !applied && (
                 <Link
                   to={`/apply/${job?._id}`}
-                  className="main-btn flex items-center gap-1"
+                  className={`main-btn flex items-center gap-1 ${
+                    job?.expired && "pointer-events-none opacity-55"
+                  }`}
                 >
                   <span>Apply Now</span> <AiFillThunderbolt size={22} />
                 </Link>
