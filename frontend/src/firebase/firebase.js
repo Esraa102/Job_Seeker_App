@@ -2,7 +2,7 @@
 import { initializeApp } from "firebase/app";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAyUCoANH5c8gqVEdXocRbL7gIogbuA1Vk",
+  apiKey: import.meta.env.FIREBASE_API_KEY,
   authDomain: "job-seeker-app-fa627.firebaseapp.com",
   projectId: "job-seeker-app-fa627",
   storageBucket: "job-seeker-app-fa627.appspot.com",
