@@ -7,13 +7,29 @@ import { useNavigate } from "react-router-dom";
 
 const JobForm = ({ isUpdate, sendData, isLoading, defaultValues, jobId }) => {
   const quillRef = useRef(null);
-  console.log(defaultValues);
   const {
     register,
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      title: defaultValues?.title || "",
+      category: defaultValues.category || "",
+      company: defaultValues.company || "",
+      location: defaultValues.location || "",
+      country: defaultValues.country || "",
+      city: defaultValues.city || "",
+      description: defaultValues.description || "",
+      jobType: defaultValues.jobType || "",
+      rangeSalary: defaultValues,
+      fixedSalary: defaultValues.fixedSalary || "",
+      from: defaultValues.rangeSalary[0] || "",
+      to: defaultValues.rangeSalary[1] || "",
+      isRemote: defaultValues.isRemote || false,
+      isExpired: defaultValues.expired || false,
+    },
+  });
   const navigate = useNavigate();
   const onSubmit = (data) => {
     sendData({
@@ -59,7 +75,6 @@ const JobForm = ({ isUpdate, sendData, isLoading, defaultValues, jobId }) => {
           type="text"
           name="title"
           id="title"
-          defaultValue={defaultValues?.title}
           placeholder="MERN Stack Developer"
           className={`input border-l rounded-md px-3 py-2 ${
             errors.title && "border-2 border-red-600 focus:border-red-600"
@@ -84,7 +99,6 @@ const JobForm = ({ isUpdate, sendData, isLoading, defaultValues, jobId }) => {
         </label>
         <select
           name="category"
-          defaultValue={defaultValues?.category}
           className="input border-l rounded-md px-3 py-2"
           id="category"
           {...register("category")}
@@ -103,7 +117,6 @@ const JobForm = ({ isUpdate, sendData, isLoading, defaultValues, jobId }) => {
         <input
           type="text"
           name="company"
-          defaultValue={defaultValues?.company}
           id="company"
           className={`input border-l rounded-md px-3 py-2 ${
             errors.company && "border-2 border-red-600 focus:border-red-600"
@@ -130,7 +143,6 @@ const JobForm = ({ isUpdate, sendData, isLoading, defaultValues, jobId }) => {
         <input
           type="text"
           name="location"
-          defaultValue={defaultValues?.location}
           id="location"
           placeholder="El-Qalubia El-Khanka"
           className={`input border-l rounded-md px-3 py-2 ${
@@ -187,8 +199,8 @@ const JobForm = ({ isUpdate, sendData, isLoading, defaultValues, jobId }) => {
           <div className="w-full flex flex-col gap-1">
             <input
               type="number"
-              name="range"
-              id="range"
+              name="from"
+              id="from"
               defaultValue={defaultValues?.rangeSalary[0]}
               placeholder="10K"
               className={`input border-l rounded-md px-3 py-2 ${
@@ -212,9 +224,8 @@ const JobForm = ({ isUpdate, sendData, isLoading, defaultValues, jobId }) => {
           <div className="w-full flex flex-col gap-1">
             <input
               type="number"
-              name="range"
-              id="range"
-              defaultValue={defaultValues?.rangeSalary[1]}
+              name="to"
+              id="to"
               placeholder="20K"
               className={`input border-l rounded-md px-3 py-2 ${
                 errors.to && "border-2 border-red-600 focus:border-red-600"
@@ -242,7 +253,6 @@ const JobForm = ({ isUpdate, sendData, isLoading, defaultValues, jobId }) => {
         <input
           type="text"
           name="city"
-          defaultValue={defaultValues?.city}
           className={`input border-l rounded-md px-3 py-2 ${
             errors.city && "border-2 border-red-600 focus:border-red-600"
           }`}
@@ -269,7 +279,6 @@ const JobForm = ({ isUpdate, sendData, isLoading, defaultValues, jobId }) => {
         <select
           name="type"
           id="type"
-          defaultValue={defaultValues?.jobType}
           className="input border-l rounded-md px-3 py-2"
           {...register("jobType")}
         >
@@ -284,7 +293,6 @@ const JobForm = ({ isUpdate, sendData, isLoading, defaultValues, jobId }) => {
         <select
           name="type"
           id="type"
-          defaultValue={defaultValues?.isRemote}
           className="input border-l rounded-md px-3 py-2"
           {...register("isRemote")}
         >
@@ -300,7 +308,6 @@ const JobForm = ({ isUpdate, sendData, isLoading, defaultValues, jobId }) => {
           <select
             name="expired"
             id="expired"
-            defaultValue={defaultValues?.expired}
             className="input border-l rounded-md px-3 py-2"
             {...register("isExpired")}
           >
@@ -315,7 +322,6 @@ const JobForm = ({ isUpdate, sendData, isLoading, defaultValues, jobId }) => {
         </label>
         <input
           type="text"
-          defaultValue={defaultValues?.country}
           className={`input border-l rounded-md px-3 py-2 ${
             errors.country && "border-2 border-red-600 focus:border-red-600"
           }`}
@@ -345,7 +351,6 @@ const JobForm = ({ isUpdate, sendData, isLoading, defaultValues, jobId }) => {
           ref={(el) => {
             quillRef.current = el;
           }}
-          defaultValue={defaultValues?.description}
           onChange={(content) => setValue("details", content)}
           placeholder="Write Something..."
         />

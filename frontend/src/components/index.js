@@ -16,6 +16,7 @@ import UnSaveJob from "./UnSaveJob";
 import SaveJob from "./SaveJob";
 import UserJobCard from "./UserJobCard";
 import DeleteJob from "./DeleteJob";
+import UploadResume from "./UploadResume";
 export {
   Header,
   Footer,
@@ -35,4 +36,5 @@ export {
   SaveJob,
   UserJobCard,
   DeleteJob,
+  UploadResume,
 };

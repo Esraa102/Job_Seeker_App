@@ -21,6 +21,9 @@
   .load-btn {
     @apply opacity-40 cursor-not-allowed hover:bg-green hover:text-white;
   }
+  .upload-btn {
+    @apply shadow-none  flex gap-1 items-center hover:bg-green/80 hover:text-black text-black mt-0 cursor-pointer w-fit mx-auto text-[16px];
+  }
 }
 
 /* HTML: <div class="loader"></div> */

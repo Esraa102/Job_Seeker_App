@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ApplicationForm } from "../../components";
 import { useApplyJobMutation } from "../../features/applications/api/applicationsApi";
 import toast from "react-hot-toast";
@@ -7,11 +7,12 @@ import { useNavigate, useParams } from "react-router-dom";
 const ApplyJob = () => {
   const [applyJob, { data, isError, isSuccess, error, isLoading }] =
     useApplyJobMutation();
+  const [resumeUrl, setResumeUrl] = useState(null);
   const { id } = useParams();
   const navigate = useNavigate();
   useEffect(() => {
     if (isError) {
-      toast.error(error.data.message);
+      toast.error(error.data?.message || error.error);
     }
     if (isSuccess) {
       console.log(data);
@@ -25,7 +26,13 @@ const ApplyJob = () => {
         <h1 className="text-3xl text-green font-bold my-6">
           Add Your Contact Information
         </h1>
-        <ApplicationForm id={id} sendData={applyJob} isLoading={isLoading} />
+        <ApplicationForm
+          resumeUrl={resumeUrl}
+          setResumeUrl={setResumeUrl}
+          id={id}
+          sendData={applyJob}
+          isLoading={isLoading}
+        />
       </div>
     </section>
   );

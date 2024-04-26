@@ -11,6 +11,7 @@ import PostJob from "./Root/PostJob";
 import ApplyJob from "./Root/ApplyJob";
 import MyJobs from "./Root/MyJobs";
 import UpdateJob from "./Root/UpdateJob";
+import ApplicationPage from "./Root/ApplicationPage";
 export {
   SignIn,
   SignUp,
@@ -25,4 +26,5 @@ export {
   ApplyJob,
   MyJobs,
   UpdateJob,
+  ApplicationPage,
 };

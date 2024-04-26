@@ -26,7 +26,7 @@ const Jobs = () => {
   }, []);
   useEffect(() => {
     if (isError) {
-      toast.error(resultsError.data?.message || resultsError.error);
+      toast.error(error.data?.message || error.error);
     }
     if (isSuccess) {
       if (data.message) {
@@ -38,7 +38,7 @@ const Jobs = () => {
   }, [isError, isSuccess, data]);
   useEffect(() => {
     if (isResultsError) {
-      toast.error(error.data?.message || error.error);
+      toast.error(resultsError.data?.message || resultsError.error);
     }
     if (isResultsSuccess) {
       if (results.message) {

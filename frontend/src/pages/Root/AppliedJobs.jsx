@@ -13,7 +13,7 @@ const AppliedJobs = () => {
   );
   useEffect(() => {
     if (isError) {
-      toast.error(error.data.message);
+      toast.error(error.data?.message || error.error);
     }
     if (isSuccess) {
       if (data.message) {
@@ -30,7 +30,7 @@ const AppliedJobs = () => {
           Your Applied Jobs
         </h1>
         {isLoading && <Loader />}
-        {!isLoading && data.userData?.appliedJobs.length === 0 && <NotFound />}
+        {!isLoading && data?.userData?.appliedJobs.length === 0 && <NotFound />}
         {isSuccess && data.userData?.appliedJobs.length > 0 && (
           <div className="grid gap-10 grid-cols-1 md:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-4">
             {appliedJobs?.map((job) => (

@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { AiFillThunderbolt } from "react-icons/ai";
 import { useGetUserByIdQuery } from "../../features/user/api/userApi";
-
+import { MdEmail } from "react-icons/md";
 const JobPage = () => {
   const { currentUser } = useSelector((state) => state.user);
   const { data: user } = useGetUserByIdQuery(currentUser._id);
@@ -145,10 +145,38 @@ const JobPage = () => {
               currentUser.username === job?.employer.employerName && (
                 <div className="mt-8">
                   <h2 className="text-2xl font-bold mb-6">Applications</h2>
-                  {job?.applicationsCount === 0 && (
+                  {job?.applicationsCount === 0 ? (
                     <p className="text-center text-gray-600">
                       No One Applied Yet!
                     </p>
+                  ) : (
+                    <div className="grid gap-10 grid-cols-1 md:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-4">
+                      {job?.applications.map((item) => (
+                        <div
+                          key={item._id}
+                          className="px-6 py-3   rounded-md shadow-lg border-2 hover:scale-105 transition border-green"
+                        >
+                          <Link
+                            to={`/application/${item._id}`}
+                            className="text-xl hover:underline transition capitalize font-bold"
+                          >
+                            {item.firstName} {item.lastName}
+                          </Link>
+                          <a
+                            href={`mailTo:${item.email}`}
+                            className="flex text-gray-500 font-semibold hover:text-green transition hover:underline mb-4 items-center gap-1"
+                          >
+                            <MdEmail size={18} />
+                            <span>{item.email}</span>
+                          </a>
+                          <p className="flex items-center gap-1">
+                            {item.coverLetter
+                              ? item.coverLetter
+                              : "No Cover Letter Provided"}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
                   )}
                 </div>
               )}
