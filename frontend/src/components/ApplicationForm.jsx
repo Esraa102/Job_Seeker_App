@@ -127,7 +127,7 @@ const ApplicationForm = ({
             id="number"
             placeholder="Eg: 01000148332"
             className={`input flex-1 border-l rounded-md px-3 py-2 ${
-              errors.phone && "border-2 border-red-600 focus:border-red-600"
+              errors.number && "border-2 border-red-600 focus:border-red-600"
             }`}
             {...register("number", {
               required: "Phone Number required",
