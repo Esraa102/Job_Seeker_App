@@ -20,7 +20,7 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: "https://job-seeker-app-1.onrender.com",
+    origin: "https://job-seeker-app-nifs.onrender.com",
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
