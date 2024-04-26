@@ -102,12 +102,32 @@ const Header = () => {
                 </div>
               )}
             </ul>
-            <LogOut />
-            <img
-              src="/assets/profile.png"
-              alt="profile"
-              className="w-[40px] h-[40px]"
-            />
+            {currentUser && (
+              <div className="flex items-center gap-3">
+                <LogOut />
+                <img
+                  src="/assets/profile.png"
+                  alt="profile"
+                  className="w-[40px] h-[40px]"
+                />
+              </div>
+            )}
+            {!currentUser && (
+              <div className="flex items-center gap-3">
+                <Link
+                  className="font-semibold text-lg text-gray-500 hover:text-[#000] transition"
+                  to={"/sign-in"}
+                >
+                  Sign In
+                </Link>
+                <Link
+                  className="main-btn my-0 bg-black border-black hover:text-black"
+                  to={"/sign-up"}
+                >
+                  Sign Up
+                </Link>
+              </div>
+            )}
           </div>
 
           <button
@@ -200,14 +220,34 @@ const Header = () => {
                 </li>
               </div>
             )}
+            {!currentUser && (
+              <div className="flex flex-col gap-3">
+                <Link
+                  className="font-semibold text-lg text-gray-500 hover:text-[#000] transition"
+                  to={"/sign-in"}
+                >
+                  Sign In
+                </Link>
+                <Link
+                  className="main-btn my-0 bg-black border-black hover:text-black"
+                  to={"/sign-up"}
+                >
+                  Sign Up
+                </Link>
+              </div>
+            )}
           </ul>
-          <LogOut />
-          <img
-            src="/assets/profile.png"
-            alt="profile"
-            onClick={() => setShowMenue(false)}
-            className="w-[40px] h-[40px]"
-          />
+          {currentUser && (
+            <div className="flex flex-col gap-3">
+              <LogOut />
+              <img
+                src="/assets/profile.png"
+                alt="profile"
+                onClick={() => setShowMenue(false)}
+                className="w-[40px] h-[40px]"
+              />
+            </div>
+          )}
         </div>
       )}
     </>

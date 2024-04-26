@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
-import { UnSaveJob } from ".";
 import { FaLocationDot } from "react-icons/fa6";
 import { useEffect, useState } from "react";
+import UnSaveJob from "./UnSaveJob";
 
-const UserJobCard = ({ job, appliedJobs }) => {
+const UserJobCard = ({ job, appliedJobs, isSave }) => {
   const [isApplied, setIsApplied] = useState(false);
   useEffect(() => {
     if (appliedJobs) {
@@ -32,7 +32,7 @@ const UserJobCard = ({ job, appliedJobs }) => {
               Applied
             </p>
           )}
-          <UnSaveJob jobId={job.jobId} />
+          {isSave && <UnSaveJob jobId={job?.jobId} />}
         </div>
       </div>
       <p className="text-black -mt-2 font-semibold flex items-center gap-1">

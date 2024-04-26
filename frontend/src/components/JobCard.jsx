@@ -5,15 +5,20 @@ import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import SaveJob from "./SaveJob";
 import UnSaveJob from "./UnSaveJob";
-import { useGetUserByIdQuery } from "../features/user/api/userApi";
+import { useGetUserByIdMutation } from "../features/user/api/userApi";
 
 const JobCard = ({ job }) => {
   const { currentUser } = useSelector((state) => state.user);
-  const { data } = useGetUserByIdQuery(currentUser._id);
+  const [getUserById, { data }] = useGetUserByIdMutation();
   const [applied, setApplied] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
   useEffect(() => {
-    if (currentUser.role === "Job Seeker") {
+    if (currentUser) {
+      getUserById(currentUser._id);
+    }
+  }, [currentUser?._id]);
+  useEffect(() => {
+    if (currentUser && currentUser.role === "Job Seeker") {
       if (job.applications) {
         const isApplied = job.applications.filter((e) => {
           return e.jobSeekerId === currentUser._id;
@@ -55,10 +60,10 @@ const JobCard = ({ job }) => {
                 Closed
               </p>
             )}
-            {isSaved && currentUser.role === "Job Seeker" && (
+            {isSaved && currentUser && currentUser.role === "Job Seeker" && (
               <UnSaveJob jobId={job?._id} />
             )}
-            {!isSaved && currentUser.role === "Job Seeker" && (
+            {!isSaved && currentUser && currentUser.role === "Job Seeker" && (
               <SaveJob jobId={job?._id} />
             )}
           </div>

@@ -24,6 +24,9 @@
   .upload-btn {
     @apply shadow-none  flex gap-1 items-center hover:bg-green/80 hover:text-black text-black mt-0 cursor-pointer w-fit mx-auto text-[16px];
   }
+  .jobs-table {
+    @apply min-w-[1000px] !important;
+  }
 }
 
 /* HTML: <div class="loader"></div> */

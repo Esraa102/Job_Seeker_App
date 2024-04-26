@@ -15,19 +15,17 @@ const JobForm = ({ isUpdate, sendData, isLoading, defaultValues, jobId }) => {
   } = useForm({
     defaultValues: {
       title: defaultValues?.title || "",
-      category: defaultValues.category || "",
-      company: defaultValues.company || "",
-      location: defaultValues.location || "",
-      country: defaultValues.country || "",
-      city: defaultValues.city || "",
-      description: defaultValues.description || "",
-      jobType: defaultValues.jobType || "",
-      rangeSalary: defaultValues,
-      fixedSalary: defaultValues.fixedSalary || "",
-      from: defaultValues.rangeSalary[0] || "",
-      to: defaultValues.rangeSalary[1] || "",
-      isRemote: defaultValues.isRemote || false,
-      isExpired: defaultValues.expired || false,
+      category: defaultValues?.category || "Front End Development",
+      company: defaultValues?.company || "",
+      location: defaultValues?.location || "",
+      country: defaultValues?.country || "",
+      city: defaultValues?.city || "",
+      jobType: defaultValues?.jobType || "Full-time",
+      fixedSalary: defaultValues?.fixedSalary || "",
+      from: defaultValues?.rangeSalary[0] || "",
+      to: defaultValues?.rangeSalary[1] || "",
+      isRemote: defaultValues?.isRemote || false,
+      isExpired: defaultValues?.expired || false,
     },
   });
   const navigate = useNavigate();
@@ -351,6 +349,7 @@ const JobForm = ({ isUpdate, sendData, isLoading, defaultValues, jobId }) => {
           ref={(el) => {
             quillRef.current = el;
           }}
+          defaultValue={defaultValues?.description}
           onChange={(content) => setValue("details", content)}
           placeholder="Write Something..."
         />

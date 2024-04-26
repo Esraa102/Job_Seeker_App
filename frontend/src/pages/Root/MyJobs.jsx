@@ -34,16 +34,16 @@ const MyJobs = () => {
         {!isLoading && isSuccess && data.jobs?.length === 0 && <NotFound />}
         {isSuccess && isSuccess && data.jobs?.length > 0 && (
           <div className="relative border-2 border-green overflow-x-auto shadow-lg sm:rounded-lg">
-            <table className="w-full  text-sm text-left rtl:text-right text-gray-500 ">
+            <table className="w-full jobs-table text-sm text-left rtl:text-right text-gray-500 ">
               <thead className="text-sm text-gray-700 uppercase">
                 <tr>
-                  <th scope="col" className="px-6 py-3 w-[16%]">
+                  <th scope="col" className="px-6 py-3 w-[20%]">
                     Date
                   </th>
-                  <th scope="col" className="px-6 py-3 w-[26%]">
+                  <th scope="col" className="px-6 py-3 w-[24%]">
                     Job Title
                   </th>
-                  <th scope="col" className="px-6 py-3 w-[26%]">
+                  <th scope="col" className="px-6 py-3 w-[24%]">
                     Category
                   </th>
                   <th scope="col" className="px-6 py-3 w-[16%]">
@@ -60,7 +60,7 @@ const MyJobs = () => {
                     key={job._id}
                     className="border-t-2  font-medium cursor-pointer hover:border-gray-300 hover:bg-gray-300 transition  border-green text-gray-900"
                   >
-                    <th scope="row" className="px-6 py-4">
+                    <th scope="row" className="px-3 md:px-6 py-4 ">
                       {formateDate(job.createdAt)}
                     </th>
                     <td className="px-6 py-4">
@@ -71,11 +71,11 @@ const MyJobs = () => {
                         {job.title}
                       </Link>
                     </td>
-                    <td className="px-6 py-4">{job.category}</td>
-                    <td className="px-6 py-4">
+                    <td className="px-6 py-4 ">{job.category}</td>
+                    <td className="px-6 py-4 ">
                       ${job.fixedSalary.toLocaleString()}
                     </td>
-                    <td className="px-6 py-4 flex items-center gap-3 flex-wrap">
+                    <td className="px-6 py-4  flex items-center gap-3 flex-wrap">
                       <Link
                         to={`/update-job/${job._id}`}
                         className="hover:text-green transition"

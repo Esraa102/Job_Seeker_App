@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useSelector } from "react-redux";
-import { useGetUserByIdQuery } from "../../features/user/api/userApi";
+import { useGetUserByIdMutation } from "../../features/user/api/userApi";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Loader, NotFound, UserJobCard } from "../../components";
@@ -8,9 +8,11 @@ import { Loader, NotFound, UserJobCard } from "../../components";
 const SavedJobs = () => {
   const { currentUser } = useSelector((state) => state.user);
   const [saved, setSaved] = useState([]);
-  const { data, isError, isSuccess, error, isLoading } = useGetUserByIdQuery(
-    currentUser._id
-  );
+  const [getUserById, { data, isError, isSuccess, error, isLoading }] =
+    useGetUserByIdMutation();
+  useEffect(() => {
+    getUserById(currentUser._id);
+  }, [currentUser._id]);
   useEffect(() => {
     if (isError) {
       toast.error(error.data?.message || error.error);
@@ -35,6 +37,7 @@ const SavedJobs = () => {
               <UserJobCard
                 key={job._id}
                 job={job}
+                isSave={true}
                 appliedJobs={data.userData?.appliedJobs}
               />
             ))}

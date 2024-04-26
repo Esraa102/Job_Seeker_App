@@ -15,7 +15,7 @@ const SignUp = () => {
   useEffect(() => {
     if (isError) {
       dispatch(createNewUserAction(null));
-      toast.error(error.data.message);
+      toast.error(error.data?.message);
     }
     if (isSuccess) {
       dispatch(createNewUserAction(data.userData));

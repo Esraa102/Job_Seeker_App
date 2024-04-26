@@ -8,11 +8,11 @@ import { FaLocationDot } from "react-icons/fa6";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { AiFillThunderbolt } from "react-icons/ai";
-import { useGetUserByIdQuery } from "../../features/user/api/userApi";
+import { useGetUserByIdMutation } from "../../features/user/api/userApi";
 import { MdEmail } from "react-icons/md";
 const JobPage = () => {
   const { currentUser } = useSelector((state) => state.user);
-  const { data: user } = useGetUserByIdQuery(currentUser._id);
+  const [getUserById, { data: user }] = useGetUserByIdMutation();
   const [applied, setApplied] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
   const { id } = useParams();
@@ -20,18 +20,21 @@ const JobPage = () => {
     useGetJobByIdMutation();
   const [job, setJob] = useState(null);
   useEffect(() => {
+    if (currentUser) {
+      getUserById(currentUser._id);
+    }
     getJobById(id);
-  }, [id]);
+  }, [id, currentUser?._id]);
   useEffect(() => {
     if (isError) {
-      toast.error(error.data.message);
+      toast.error(error.data?.message);
     }
     if (isSuccess) {
       setJob(data.job);
     }
   }, [isError, isSuccess, id]);
   useEffect(() => {
-    if (currentUser.role === "Job Seeker") {
+    if (currentUser && currentUser.role === "Job Seeker") {
       if (job) {
         const isApplied = job.applications.filter((e) => {
           return e.jobSeekerId === currentUser._id;
@@ -75,12 +78,16 @@ const JobPage = () => {
                     Applied
                   </p>
                 )}
-                {isSaved && currentUser.role === "Job Seeker" && (
-                  <UnSaveJob jobId={job?._id} />
-                )}
-                {!isSaved && currentUser.role === "Job Seeker" && (
-                  <SaveJob jobId={job?._id} />
-                )}
+                {isSaved &&
+                  currentUser &&
+                  currentUser.role === "Job Seeker" && (
+                    <UnSaveJob jobId={job?._id} />
+                  )}
+                {!isSaved &&
+                  currentUser &&
+                  currentUser.role === "Job Seeker" && (
+                    <SaveJob jobId={job?._id} />
+                  )}
               </div>
             </div>
             <p className="text-black font-semibold capitalize">
@@ -121,7 +128,8 @@ const JobPage = () => {
               Country: {job?.country}
             </p>
             <div className="flex items-center gap-4 mt-8">
-              {currentUser.role === "Employer" &&
+              {currentUser &&
+                currentUser.role === "Employer" &&
                 currentUser.username === job?.employer.employerName && (
                   <div className="flex items-center gap-4 mt-8">
                     <Link to={`/update-job/${job?._id}`} className="main-btn ">
@@ -130,7 +138,7 @@ const JobPage = () => {
                     <DeleteJob jobId={job?._id} table={false} />
                   </div>
                 )}
-              {currentUser.role === "Job Seeker" && !applied && (
+              {currentUser && currentUser.role === "Job Seeker" && !applied && (
                 <Link
                   to={`/apply/${job?._id}`}
                   className={`main-btn flex items-center gap-1 ${
@@ -141,7 +149,8 @@ const JobPage = () => {
                 </Link>
               )}
             </div>
-            {currentUser.role === "Employer" &&
+            {currentUser &&
+              currentUser.role === "Employer" &&
               currentUser.username === job?.employer.employerName && (
                 <div className="mt-8">
                   <h2 className="text-2xl font-bold mb-6">Applications</h2>

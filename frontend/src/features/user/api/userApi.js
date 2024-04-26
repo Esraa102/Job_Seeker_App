@@ -34,7 +34,7 @@ export const userApiSlice = createApi({
         credentials: "include",
       }),
     }),
-    getUserById: builder.query({
+    getUserById: builder.mutation({
       query: (userId) => ({
         url: `get-user/${userId}`,
         method: "GET",
@@ -43,7 +43,7 @@ export const userApiSlice = createApi({
         },
         credentials: "include",
       }),
-      providesTags: ["User", "Jobs", "Appilcation", "Job"],
+      invalidatesTags: ["User", "Jobs", "Appilcation", "Job"],
     }),
     saveJob: builder.mutation({
       query: (jobId) => ({
@@ -63,6 +63,6 @@ export const {
   useRegisterUserMutation,
   useLogInUserMutation,
   useLogOutUserMutation,
-  useGetUserByIdQuery,
+  useGetUserByIdMutation,
   useSaveJobMutation,
 } = userApiSlice;
