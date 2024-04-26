@@ -1,18 +1,26 @@
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { countryCodes } from "../data";
-
-const ApplicationForm = ({ sendData, id, isLoading }) => {
+import { UploadResume } from ".";
+const ApplicationForm = ({
+  sendData,
+  id,
+  isLoading,
+  resumeUrl,
+  setResumeUrl,
+}) => {
   const { currentUser } = useSelector((state) => state.user);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
+
   const onSubmit = (data) => {
     sendData({
       jobId: id,
       firstName: data.first,
+      resumeFile: resumeUrl,
       lastName: data.last,
       email: data.email,
       state: data.state,
@@ -86,18 +94,19 @@ const ApplicationForm = ({ sendData, id, isLoading }) => {
           value={currentUser.email}
           placeholder="Eg: esraa1925@gmail.com"
           className={
-            "input border-l rounded-md focus:border-black px-3 text-lg  py-2"
+            "input border-l  rounded-md opacity-50 cursor-not-allowed focus:border-black px-3 text-lg  py-2"
           }
           {...register("email")}
         />
       </div>
+      <UploadResume resumeUrl={resumeUrl} setResumeUrl={setResumeUrl} />
       <div className="flex flex-col gap-3">
         <label htmlFor="number" className="text-lg font-semibold">
           Phone Number
         </label>
         <div className="flex gap-3 items-center flex-wrap">
           <select
-            className="input font-semibold w-fit cursor-pointer border-l rounded-md px-3 py-2"
+            className="input w-full md:w-1/2 lg:w-1/3 font-semibold  cursor-pointer border-l rounded-md px-3 py-2"
             name="code"
             id="code"
             {...register("code")}
@@ -118,7 +127,7 @@ const ApplicationForm = ({ sendData, id, isLoading }) => {
             id="number"
             placeholder="Eg: 01000148332"
             className={`input flex-1 border-l rounded-md px-3 py-2 ${
-              errors.last && "border-2 border-red-600 focus:border-red-600"
+              errors.phone && "border-2 border-red-600 focus:border-red-600"
             }`}
             {...register("number", {
               required: "Phone Number required",
@@ -126,7 +135,7 @@ const ApplicationForm = ({ sendData, id, isLoading }) => {
                 value: 9,
                 message: "Phone Number should be at least 9 digits",
               },
-              max: {
+              maxLength: {
                 value: 20,
                 message: "Phone number can't be greater than 20 digits",
               },

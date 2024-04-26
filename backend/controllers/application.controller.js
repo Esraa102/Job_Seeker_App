@@ -2,7 +2,6 @@ import { Application } from "../models/application.model.js";
 import { customError } from "../utils/customError.js";
 import { Job } from "../models/job.model.js";
 import { User } from "../models/user.model.js";
-import cloudinary from "cloudinary";
 
 const applyJob = async (req, res, next) => {
   const { jobId } = req.params;
@@ -17,27 +16,8 @@ const applyJob = async (req, res, next) => {
           customError(res.status(403), "You have already applied for this job")
         );
       } else {
-        if (!req.files || Object.keys(req.files).length === 0) {
-          next(customError(res.status(400), "Resume file is required"));
-        }
-        const allowedFormates = [
-          "image/jpg",
-          "image/png",
-          "image/jpeg",
-          "image/webp",
-        ];
-        if (!allowedFormates.includes(req.files.resume.mimetype)) {
-          next(customError(res.status(400), "Invalid File Formate"));
-        }
-        const cloudinaryResponse = await cloudinary.uploader.upload(
-          req.files.resume.tempFilePath
-        );
-        if (!cloudinaryResponse || cloudinaryResponse.error) {
-          console.log(
-            "Cloudinary Error",
-            cloudinaryResponse.error || "Unknown Error"
-          );
-          next(customError(res.status(400), "Failded to upload the file"));
+        if (!req.body.resumeFile) {
+          return next(customError(res.status(400), "Resume File is required"));
         }
         const applied = await Job.findById(req.params.jobId);
         // create the application
@@ -49,10 +29,7 @@ const applyJob = async (req, res, next) => {
           email: req.body.email,
           phoneNumber: req.body.phoneNumber,
           state: req.body.state,
-          resume: {
-            public_id: cloudinaryResponse.public_id,
-            url: cloudinaryResponse.secure_url,
-          },
+          resumeFile: req.body.resumeFile,
           coverLetter: req.body.coverLetter,
           jobSeekerId: req.user._id,
           employerID: applied.employer.employerId,
@@ -97,4 +74,36 @@ const applyJob = async (req, res, next) => {
   }
 };
 
-export { applyJob };
+const getApplication = async (req, res, next) => {
+  const { applicationId } = req.params;
+  if (req.user.role !== "Employer") {
+    next(
+      customError(
+        res.status(403),
+        "Only Employers have access to this resource"
+      )
+    );
+  } else {
+    try {
+      const application = await Application.findById(applicationId);
+      if (!application) {
+        next(customError(res.status(404), "Application Not Found"));
+      } else {
+        if (req.user._id !== application.employerID.toString()) {
+          next(
+            customError(
+              res.status(403),
+              "Only The Job Owner has access to this resource"
+            )
+          );
+        } else {
+          res.status(200).json({ application });
+        }
+      }
+    } catch (error) {
+      next(customError(res.status(500), error.message));
+    }
+  }
+};
+
+export { applyJob, getApplication };

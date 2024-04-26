@@ -19,7 +19,19 @@ export const applicationsApi = createApi({
       }),
       invalidatesTags: ["Applications", "Jobs", "User"],
     }),
+    getApplication: builder.mutation({
+      query: (applicationId) => ({
+        url: `get-application/${applicationId}`,
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+      invalidatesTags: ["Applications", "Jobs", "User"],
+    }),
   }),
 });
 
-export const { useApplyJobMutation } = applicationsApi;
+export const { useApplyJobMutation, useGetApplicationMutation } =
+  applicationsApi;

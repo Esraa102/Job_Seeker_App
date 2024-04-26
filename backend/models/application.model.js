@@ -33,15 +33,9 @@ const applicationSchema = new mongoose.Schema({
   state: {
     type: String,
   },
-  resume: {
-    public_id: {
-      type: String,
-      required: true,
-    },
-    url: {
-      type: String,
-      required: true,
-    },
+  resumeFile: {
+    type: String,
+    required: true,
   },
   employerID: {
     type: mongoose.Schema.Types.ObjectId,
