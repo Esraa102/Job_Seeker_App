@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const applicationsApi = createApi({
   reducerPath: "applicationsApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:5000/api/application",
+    baseUrl: "https://job-seeker-app-nifs.onrender.com/api/application",
   }),
   tagTypes: ["Applications", "Jobs", "User"],
   endpoints: (builder) => ({
